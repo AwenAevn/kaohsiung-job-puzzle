@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>拼起來！上工吧 - 科技深藍版</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
+<style>
+    :root {
+        /* 明亮動漫色彩 */
+        --manga-blue: #4da6ff;
+        --manga-yellow: #ffdb4d;
+        --manga-red: #ff4d4d;
+        --manga-outline: #1a1a1a;
+    }
+
+    * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+
+    body {
+        font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+        background-color: var(--manga-blue); 
+        color: #fff;
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        min-height: 100vh;
+        overflow-x: hidden;
+    }
+
+    /* =========================================
+       1. 遊戲封面層 (科技深藍質感版)
+       ========================================= */
+    #coverScreen {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        /* 偏藍的科技深色調 (不刺眼也不會太黑) */
+        background: radial-gradient(circle at center, #0d325e 0%, #041021 100%);
+        z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
+    }
+
+    /* 亮色科技透視網格 */
+    .light-cyber-grid {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+        background-image: 
+            linear-gradient(rgba(0, 242, 254, 0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 242, 254, 0.15) 1px, transparent 1px);
+        background-size: 50px 50px;
+        transform: perspective(600px) rotateX(60deg);
+        transform-origin: bottom center;
+        animation: gridMoveLight 8s linear infinite;
+        z-index: 1;
+        opacity: 0.8;
+    }
+    @keyframes gridMoveLight {
+        0% { background-position: 0 0; }
+        100% { background-position: 0 50px; }
+    }
+
+    /* 科技核心 SVG */
+    .light-tech-core {
+        position: relative; width: 240px; height: 240px; z-index: 5; margin-bottom: 20px;
+        filter: drop-shadow(0 10px 20px rgba(0, 242, 254, 0.4));
+        animation: floatLightCore 4s ease-in-out infinite;
+    }
+    @keyframes floatLightCore {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-15px); }
+    }
+    .core-svg { width: 100%; height: 100%; position: absolute; top: 0; left: 0; animation: spinLightCore 20s linear infinite; }
+    .core-svg-reverse { width: 100%; height: 100%; position: absolute; top: 0; left: 0; animation: spinLightCoreRev 25s linear infinite; }
+    @keyframes spinLightCore { 100% { transform: rotate(360deg); } }
+    @keyframes spinLightCoreRev { 100% { transform: rotate(-360deg); } }
+
+    /* 中央發光問號 */
+    .core-question-mark {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 80px;
+        font-weight: 900;
+        color: #fff;
+        text-shadow: 0 0 15px #00f2fe, 0 0 30px #fe00f2;
+        z-index: 10;
+        animation: pulseQuestion 2s infinite;
+    }
+    @keyframes pulseQuestion {
+        0%, 100% { transform: translate(-50%, -50%) scale(1); text-shadow: 0 0 15px #00f2fe, 0 0 30px #fe00f2; }
+        50% { transform: translate(-50%, -50%) scale(1.1); text-shadow: 0 0 25px #00f2fe, 0 0 50px #fe00f2; }
+    }
+
+    /* 亮色系高質感漸層標題 */
+    .title-wrapper { z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 30px; }
+    .subtitle-light {
+        font-size: clamp(16px, 4.5vw, 22px); color: #00f2fe; font-weight: 900; letter-spacing: 3px;
+        background: rgba(0, 20, 40, 0.5); padding: 5px 20px; border-radius: 20px;
+        border: 1px solid rgba(0, 242, 254, 0.4); backdrop-filter: blur(5px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    }
+    .title-light {
+        font-family: "Microsoft JhengHei", sans-serif; font-size: clamp(34px, 10vw, 54px); font-weight: 900;
+        /* 配合藍色底的發光漸層 */
+        background: linear-gradient(135deg, #ffffff 0%, #00f2fe 50%, #fe00f2 100%);
+        -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.5)); letter-spacing: 2px;
+    }
+
+    /* 超光感按鈕 (掃描光束) */
+    .scan-btn-light {
+        position: relative; background: rgba(0, 20, 40, 0.7); border: 2px solid #00f2fe; color: #00f2fe; 
+        font-size: clamp(24px, 6vw, 30px);
+        font-weight: 900; padding: 16px 50px;
+        border-radius: 50px; cursor: pointer; z-index: 20;
+        overflow: hidden; box-shadow: 0 0 20px rgba(0, 242, 254, 0.4), inset 0 0 10px rgba(0, 242, 254, 0.2); transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        letter-spacing: 3px; backdrop-filter: blur(5px);
+    }
+    /* 掃描光束 */
+    .scan-btn-light::before {
+        content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.8), transparent);
+        transform: skewX(-25deg); animation: scanLightBeam 2s infinite;
+    }
+    @keyframes scanLightBeam { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
+    
+    /* 滑過時觸發紫藍漸層與強烈霓虹光暈 */
+    .scan-btn-light:hover {
+        background: linear-gradient(135deg, #00f2fe, #fe00f2); color: #fff; border-color: transparent;
+        box-shadow: 0 12px 30px rgba(254, 0, 242, 0.6); transform: translateY(-4px);
+    }
+    .scan-btn-light:active { transform: scale(0.95) translateY(0); }
+
+    /* =========================================
+       2. 還原遊戲主畫面 (明亮動漫風)
+       ========================================= */
+    .kaohsiung-illust-bg {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1;
+        background: radial-gradient(circle at 50% 50%, #85ccff 0%, #4da6ff 100%); 
+        overflow: hidden; display: none; 
+    }
+
+    .manga-burst {
+        position: absolute; top: 50%; left: 50%; width: 300vmax; height: 300vmax;
+        background: repeating-conic-gradient(from 0deg, rgba(255,255,255,0.2) 0deg 8deg, transparent 8deg 16deg); 
+        transform: translate(-50%, -50%); animation: rotateBurst 120s linear infinite;
+    }
+    @keyframes rotateBurst { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
+    #mainGameContainer { display: none; padding: 10px; position: relative; z-index: 10; }
+
+    /* 主遊戲標題 - 立體黑色字體 */
+    h1 {
+        font-size: clamp(1.8rem, 8vw, 2.8rem); 
+        margin: 15px 0 5px 0; color: #fff; font-weight: 900; letter-spacing: 1px; font-style: italic;
+        text-shadow: 
+            2px 2px 0px var(--manga-outline),
+            4px 4px 0px var(--manga-outline),
+            6px 6px 10px rgba(0,0,0,0.4);
+        -webkit-text-stroke: 1px var(--manga-outline);
+    }
+
+    /* 題目卡片 - 還原白色卡片、黑邊框 */
+    .question-card {
+        background: #fff; border: 4px solid var(--manga-outline); padding: 15px 20px; border-radius: 20px; margin: 10px auto; max-width: 350px;
+        box-shadow: 6px 6px 0px var(--manga-outline); color: var(--manga-outline);
+        animation: springIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+    @keyframes springIn { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    h3 { font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 900; }
+
+    /* 選項按鈕 - 白底黑邊、hover變黃 */
+    .opt-btn {
+        display: block; width: 100%; margin: 8px auto; padding: 10px 15px; border: 3px solid var(--manga-outline); border-radius: 12px; background: #fff; color: var(--manga-outline); cursor: pointer; font-size: 16px; font-weight: 900; transition: 0.2s; box-shadow: 4px 4px 0px var(--manga-outline);
+    }
+    .opt-btn:hover:not(:disabled) { background: var(--manga-yellow); transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--manga-outline); }
+    .opt-btn:active:not(:disabled) { transform: translate(1px, 1px); box-shadow: 0px 0px 0px var(--manga-outline); }
+
+    /* =========================================
+       3. 立體拼圖 
+       ========================================= */
+    #puzzleWrapper { margin: 15px auto; width: 300px; height: 200px; position: relative; }
+    #puzzleBoard { width: 100%; height: 100%; position: relative; z-index: 1; }
+
+    .piece {
+        width: 140px; height: 140px; position: absolute; transition: all 0.7s cubic-bezier(0.19, 1, 0.22, 1); display: flex; align-items: center; justify-content: center;
+        filter: drop-shadow(2px 0 0 var(--manga-outline)) drop-shadow(-2px 0 0 var(--manga-outline)) drop-shadow(0 2px 0 var(--manga-outline)) drop-shadow(0 -2px 0 var(--manga-outline)) drop-shadow(6px 8px 0px rgba(0,0,0,0.3));
+    }
+    .piece-inner { width: 100%; height: 100%; position: relative; }
+    .piece-bevel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 5px 5px 8px rgba(255,255,255,0.5), inset -5px -5px 8px rgba(0,0,0,0.2); pointer-events: none; }
+    .piece-glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%, rgba(0,0,0,0.05) 100%); pointer-events: none; }
+
+    /* =========================================
+       4. 結果蓋層與分享海報
+       ========================================= */
+    #resultOverlay {
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.45); border: 4px solid var(--manga-outline); border-radius: 15px; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; z-index: 100; padding: 10px;
+    }
+    #resultOverlay.visible { opacity: 1; pointer-events: auto; }
+
+    .result-reveal-text { font-weight: 900; font-size: 20px; margin-bottom: 8px; color: var(--manga-outline); text-shadow: 1px 1px 0px #fff; }
+    .result-type-title { font-size: clamp(32px, 11vw, 44px); font-weight: 900; color: #d35400; text-shadow: 2px 2px 0px #fff, -2px -2px 0px #fff, 2px -2px 0px #fff, -2px 2px 0px #fff, 4px 4px 6px rgba(0,0,0,0.4); }
+
+    #resultDetailArea { margin-top: 15px; position: relative; z-index: 20; }
+    .final-box { background: #fff; color: var(--manga-outline); padding: 15px 20px; border: 4px solid var(--manga-outline); border-radius: 20px; box-shadow: 8px 8px 0px var(--manga-outline); max-width: 380px; margin: 0 auto; font-size: 15px; line-height: 1.5; font-weight: bold; }
+
+    .btn-group { display: flex; gap: 10px; justify-content: center; margin-top: 15px; }
+    .btn-action { flex: 1; padding: 12px 5px; font-size: 14px; margin: 0; }
+    .btn-share { background: #4facfe; color: #fff; }
+
+    /* 徵才活動海報與電子書樣式 */
+    .poster-box { background: #fff; border: 4px solid var(--manga-outline); padding: 15px; border-radius: 20px; box-shadow: 8px 8px 0px var(--manga-outline); max-width: 380px; margin: 20px auto 10px auto; }
+    .poster-title { font-weight: 900; font-size: 18px; color: var(--manga-outline); margin-bottom: 10px; text-align: left; border-left: 5px solid #ff4d4d; padding-left: 10px; }
+    .poster-img { width: 100%; height: auto; object-fit: contain; border-radius: 10px; border: 2px solid var(--manga-outline); display: block; transition: all 0.3s ease; }
+    .poster-img:hover { transform: translateY(-3px); box-shadow: 0 6px 12px rgba(0,0,0,0.3); }
+    .poster-fallback { background: #f4f4f4; border: 2px dashed #ccc; border-radius: 10px; padding: 30px 10px; color: #777; font-size: 14px; font-weight: bold; }
+    
+    .ebook-box { max-width: 380px; margin: 20px auto 20px auto; }
+    .ebook-btn { display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; padding: 15px; background: var(--manga-yellow); border: 4px solid var(--manga-outline); border-radius: 15px; box-shadow: 6px 6px 0px var(--manga-outline); color: var(--manga-outline); font-size: 18px; font-weight: 900; text-decoration: none; transition: 0.2s; }
+    .ebook-btn:hover { background: #ffe680; transform: translate(-2px, -2px); box-shadow: 8px 8px 0px var(--manga-outline); }
+    .ebook-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--manga-outline); }
+
+    /* 海報放大燈箱 */
+    #lightbox {
+        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+        background: rgba(0,0,0,0.85); display: none; z-index: 4000;
+        align-items: center; justify-content: center; padding: 20px;
+        cursor: zoom-out;
+    }
+    #lightboxImg {
+        max-width: 100%; max-height: 100%; border-radius: 10px;
+        border: 4px solid #fff; box-shadow: 0 0 20px rgba(0,0,0,0.5);
+    }
+
+    #modalLayer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; z-index: 2000; align-items: flex-end; }
+    #shareWindow { width: 100%; max-width: 500px; background: #fff; color: #333; border-radius: 25px 25px 0 0; padding: 20px; margin: 0 auto; animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    .share-card-preview { background: #f1f4f9; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid var(--manga-outline); text-align: left; }
+    .share-row { display: flex; justify-content: space-around; padding: 5px 0; }
+    .share-col { cursor: pointer; text-align: center; font-size: 12px; font-weight: bold; }
+    .icon-box { width: 50px; height: 50px; border-radius: 12px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; border: 2px solid var(--manga-outline); }
+
+    #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 3000; font-size: 13px; }
+</style>
+</head>
+<body>
+
+<div id="coverScreen">
+    <div class="light-cyber-grid"></div>
+
+    <div class="light-tech-core">
+        <svg class="core-svg" viewBox="0 0 200 200">
+            <circle cx="100" cy="100" r="90" fill="none" stroke="#00f2fe" stroke-width="4" stroke-dasharray="30 15 10 15"/>
+            <circle cx="100" cy="100" r="75" fill="none" stroke="#fe00f2" stroke-width="2" stroke-dasharray="15 15"/>
+            <circle cx="100" cy="10" r="6" fill="#00f2fe" filter="drop-shadow(0 0 5px #00f2fe)" />
+            <circle cx="100" cy="190" r="6" fill="#fe00f2" filter="drop-shadow(0 0 5px #fe00f2)" />
+        </svg>
+        <svg class="core-svg-reverse" viewBox="0 0 200 200">
+            <path d="M 70 70 H 130 V 130 H 70 Z" fill="rgba(0,242,254,0.15)" stroke="#00f2fe" stroke-width="2"/>
+            <path d="M 60 60 H 90 A 10 10 0 1 0 110 60 H 140 V 90 A 10 10 0 1 1 140 110 V 140 H 110 A 10 10 0 1 0 90 140 H 60 V 110 A 10 10 0 1 1 60 90 Z" fill="rgba(254, 0, 242, 0.2)" stroke="#fe00f2" stroke-width="3"/>
+            <circle cx="10" cy="100" r="4" fill="#00f2fe" />
+            <circle cx="190" cy="100" r="4" fill="#fe00f2" />
+        </svg>
+        <div class="core-question-mark">?</div>
+    </div>
+
+    <div class="title-wrapper">
+        <div class="subtitle-light">你的職人潛能 藏在哪一塊拼圖？</div>
+        <div class="title-light">拼起來！上工吧</div>
+    </div>
+
+    <button class="scan-btn-light" onclick="initGame()">
+        開始遊戲
+    </button>
+</div>
+
+<div id="gameBg" class="kaohsiung-illust-bg">
+    <div class="manga-burst"></div>
+</div>
+
+<div id="mainGameContainer">
+    <h1>🧩 拼起來！上工吧！</h1>
+    <div id="quizArea"></div>
+
+    <div id="puzzleWrapper">
+        <div id="puzzleBoard"></div>
+        <div id="resultOverlay">
+            <div class="result-reveal-text">你的職人拼圖揭曉！</div>
+            <div id="finalTypeName" class="result-type-title"></div>
+        </div>
+    </div>
+
+    <div id="resultDetailArea"></div>
+</div>
+
+<div id="modalLayer" onclick="toggleModal(false)">
+    <div id="shareWindow" onclick="event.stopPropagation()">
+        <div style="display:flex; align-items:center; margin-bottom:20px; font-weight:bold;">
+            <span onclick="toggleModal(false)" style="font-size:30px; cursor:pointer; margin-right:15px;">✕</span>
+            <span style="font-size: 22px;">分享給戰友</span>
+        </div>
+        <div class="share-card-preview">
+            <div id="shareTitleLabel" style="font-weight:900; color:#111; font-size:18px; margin-bottom:8px;"></div>
+            <div style="font-size:14px; color:#444; line-height:1.5;">看到合適的企業就主動靠近吧！百工百業一起來高雄上工拼未來！</div>
+        </div>
+        <div class="share-row">
+            <div class="share-col" onclick="handleShare('copy')"><div class="icon-box" style="background:#555;">🔗</div><div>複製連結</div></div>
+            <div class="share-col" onclick="handleShare('fb')"><div class="icon-box" style="background:#1877f2;">f</div><div>Facebook</div></div>
+            <div class="share-col" onclick="handleShare('line')"><div class="icon-box" style="background:#06c755;">L</div><div>LINE</div></div>
+            <div class="share-col" onclick="handleShare('threads')"><div class="icon-box" style="background:#000;">T</div><div>Threads</div></div>
+        </div>
+    </div>
+</div>
+
+<div id="toastMsg"></div>
+
+<div id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="放大海報">
+</div>
+
+<script>
+// 圖片載入失敗時的自動重試機制 (處理 .png, .jpeg 等不同副檔名)
+window.fallbackImage = function(img, baseName) {
+    let attempt = parseInt(img.getAttribute('data-attempt') || '0');
+    const exts = ['.png', '.jpeg', '.webp', '.JPG', '.PNG'];
+    if (attempt < exts.length) {
+        img.setAttribute('data-attempt', attempt + 1);
+        img.src = baseName + exts[attempt];
+    } else {
+        img.style.display = 'none';
+        img.nextElementSibling.style.display = 'block';
+    }
+};
+
+const questions = [
+    { q: "你喜歡怎樣的工作節奏？", options: [["穩定規律", "A"], ["變化多挑戰高", "B"], ["可以與人互動", "C"], ["專心完成任務", "D"]] },
+    { q: "別人最常稱讚你什麼？", options: [["細心", "A"], ["溝通能力", "C"], ["行動力", "B"], ["創意", "D"]] },
+    { q: "如果今天立刻上工，你希望？", options: [["有人帶", "A"], ["直接上場", "B"], ["有明確流程", "A"], ["可以發揮想法", "D"]] },
+    { q: "你最在意工作哪件事？", options: [["穩定收入", "A"], ["成長機會", "B"], ["團隊氣氛", "C"], ["自由彈性", "D"]] },
+    { q: "你面對壓力時會？", options: [["慢慢消化", "A"], ["立刻處理", "B"], ["找人討論", "C"], ["自己研究", "D"]] },
+    { q: "如果有企業願意錄用你，你會？", options: [["想多了解再決定", "A"], ["馬上答應", "B"], ["看發展空間", "C"], ["看工作內容", "D"]] }
+];
+
+let currentIdx = 0;
+let scoreMap = { A: 0, B: 0, C: 0, D: 0 };
+let isEnded = false;
+
+const pieceColors = [
+    "linear-gradient(135deg, #FF5E62, #FF9966)",
+    "linear-gradient(135deg, #F9D423, #FF4E50)",
+    "linear-gradient(135deg, #42E695, #3BB2B8)",
+    "linear-gradient(135deg, #6190E8, #A7BFE8)",
+    "linear-gradient(135deg, #EE9CA7, #FFDDE1)",
+    "linear-gradient(135deg, #8E44AD, #C39BD3)"
+];
+
+function initGame() {
+    document.getElementById("coverScreen").style.display = "none";
+    document.getElementById("gameBg").style.display = "block";
+    document.getElementById("mainGameContainer").style.display = "block";
+    showNextQuestion();
+}
+
+function getPuzzlePath(i) {
+    const row = Math.floor(i / 3), col = i % 3;
+    const b = 20, s = 100, t = 22;
+    let p = `M ${b} ${b}`;
+    if (row === 0) p += ` H ${b + s}`;
+    else p += ` H ${b + s/2 - t} Q ${b + s/2} ${b + t} ${b + s/2 + t} ${b} H ${b + s}`;
+    if (col === 2) p += ` V ${b + s}`;
+    else p += ` V ${b + s/2 - t} Q ${b + s + t} ${b + s/2} ${b + s} ${b + s/2 + t} V ${b + s}`;
+    if (row === 1) p += ` H ${b}`;
+    else p += ` H ${b + s/2 + t} Q ${b + s/2} ${b + s + t} ${b + s/2 - t} ${b + s} H ${b}`;
+    if (col === 0) p += ` V ${b}`;
+    else p += ` V ${b + s/2 + t} Q ${b + t} ${b + s/2} ${b} ${b + s/2 - t} V ${b}`;
+    return `path('${p} Z')`;
+}
+
+function showNextQuestion() {
+    if (isEnded) return;
+    const area = document.getElementById("quizArea");
+    if (currentIdx >= questions.length) { completeGame(); return; }
+    const q = questions[currentIdx];
+    let html = `<div class='question-card'><h3>Q${currentIdx + 1}. ${q.q}</h3>`;
+    q.options.forEach(opt => {
+        html += `<button class="opt-btn" onclick="handleChoice('${opt[1]}')">${opt[0]}</button>`;
+    });
+    html += "</div>";
+    area.innerHTML = html;
+}
+
+function handleChoice(type) {
+    if (isEnded) return;
+    scoreMap[type]++;
+    dropPiece();
+    currentIdx++;
+    showNextQuestion();
+}
+
+function dropPiece() {
+    const board = document.getElementById("puzzleBoard");
+    const piece = document.createElement("div");
+    piece.className = "piece";
+    const col = currentIdx % 3, row = Math.floor(currentIdx / 3);
+    
+    piece.style.left = (col * 100 - 20) + "px";
+    piece.style.top = (row * 100 - 550) + "px";
+    
+    const inner = document.createElement("div");
+    inner.className = "piece-inner";
+    inner.style.background = pieceColors[currentIdx];
+    inner.style.clipPath = getPuzzlePath(currentIdx);
+    
+    inner.innerHTML = `<div class="piece-bevel"></div><div class="piece-glare"></div>`;
+    
+    piece.appendChild(inner);
+    board.appendChild(piece);
+    
+    setTimeout(() => { piece.style.top = (row * 100 - 20) + "px"; }, 50);
+}
+
+function completeGame() {
+    isEnded = true;
+    document.getElementById("quizArea").innerHTML = "";
+    const resultKey = Object.keys(scoreMap).reduce((a, b) => scoreMap[a] > scoreMap[b] ? a : b);
+    const resultNames = { A: "穩定成長型", B: "行動實戰型", C: "團隊協作型", D: "創意發想型" };
+    
+    document.getElementById("finalTypeName").innerText = resultNames[resultKey];
+    document.getElementById("shareTitleLabel").innerText = `我的職人拼圖揭曉 - ${resultNames[resultKey]}`;
+    document.getElementById("resultOverlay").classList.add("visible");
+    
+    document.getElementById("resultDetailArea").innerHTML = `
+        <div class="final-box">
+            看到合適的企業，就主動靠近；<br>覺得不錯的職缺，就勇敢開口，<br>別猶豫——<b>上工吧!</b>
+            <div class="btn-group">
+                <button class="opt-btn btn-action" onclick="location.reload()">🧩我要再拼一次</button>
+                <button class="opt-btn btn-action btn-share" onclick="toggleModal(true)">🧩揪朋友一起拼</button>
+            </div>
+        </div>
+
+        <div class="ebook-box">
+            <a href="#" target="_blank" class="ebook-btn">
+                📖 點我看《職人必備電子書》
+            </a>
+        <!-- 徵才活動海報區塊 (支援點擊放大，加入自動副檔名偵測) -->
+        <div class="poster-box">
+            <div class="poster-title">📢 徵才活動熱烈展開中</div>
+            <img class="poster-img" src="徵才活動海報.jpg" alt="徵才活動海報 - 上工吧 百工們" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, '徵才活動海報')">
+            <div class="poster-fallback" style="display:none;">
+                [海報顯示區塊]<br>請確認圖檔名為 <b>徵才活動海報</b> (支援 jpg/png/jpeg)<br>並與此檔案放在同個資料夾
+            </div>
+        </div>
+
+        <!-- CPAS 職涯月老 x 天賦仙子 海報區塊 (支援點擊放大，加入自動副檔名偵測) -->
+        <div class="poster-box" style="margin-bottom: 40px;">
+            <div class="poster-title" style="border-left-color: #b066ff;">✨ CPAS 職涯月老 x 天賦仙子</div>
+            <img class="poster-img" src="CPAS海報.jpg" alt="CPAS海報 - 職涯月老 x 天賦仙子" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, 'CPAS海報')">
+            <div class="poster-fallback" style="display:none;">
+                [海報顯示區塊]<br>請確認圖檔名為 <b>CPAS海報</b> (支援 jpg/png/jpeg)<br>並與此檔案放在同個資料夾
+            </div>
+        </div>
+    `;
+}
+
+function toggleModal(s) { document.getElementById("modalLayer").style.display = s ? "flex" : "none"; }
+
+// 燈箱控制邏輯
+function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').style.display = 'flex';
+}
+function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
+}
+
+async function handleShare(p) {
+    // 💡 若未來遊戲上架到網路，請將下方的 "" 中填入您真實的網址 (例如 "https://www.example.com")
+    // 如果留空，系統就會自動抓取當下瀏覽器上顯示的網址！
+    const GAME_URL = ""; 
+    let url = GAME_URL || window.location.href;
+    
+    const shareText = `🧩 我拼出了我的職場座標：${document.getElementById("finalTypeName").innerText}！百工百業一起來高雄上工拼未來！`;
+    
+    switch(p) {
+        case 'copy':
+            try { await navigator.clipboard.writeText(url); showToast("✅ 連結已複製！快分享給戰友！"); } catch(e) { showToast("✅ 請複製瀏覽器網址分享！"); }
+            break;
+        case 'line': window.open(`https://line.me/R/msg/text/?${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); break;
+        case 'fb': window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank'); break;
+        case 'threads': window.open(`https://www.threads.net/intent/post?text=${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); break;
+    }
+}
+
+function showToast(m) {
+    const t = document.getElementById("toastMsg");
+    t.innerText = m; t.style.display = "block";
+    setTimeout(() => { t.style.display = "none"; }, 3000);
+}
+</script>
+
+</body>
+</html>
