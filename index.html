@@ -334,36 +334,30 @@
         box-shadow: 0 0 10px rgba(0, 242, 254, 0.3); backdrop-filter: blur(5px);
         transition: all 0.3s ease; letter-spacing: 1px;
     }
-    .music-btn:hover {
-        background: #00f2fe; color: #000; box-shadow: 0 0 15px #00f2fe;
+    #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 3000; font-size: 13px; }
+
+    /* 新增：背景音樂控制按鈕 */
+    .music-btn {
+        position: fixed; top: 15px; right: 15px; z-index: 10001;
+        background: rgba(0, 20, 40, 0.7); border: 1px solid #00f2fe; color: #00f2fe;
+        padding: 6px 14px; border-radius: 20px; cursor: pointer;
+        font-family: 'Orbitron', 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: bold;
+        box-shadow: 0 0 10px rgba(0, 242, 254, 0.3); backdrop-filter: blur(5px);
+        transition: all 0.3s ease; letter-spacing: 1px;
     }
-    .music-btn.playing {
-        border-color: #fe00f2; color: #fe00f2; box-shadow: 0 0 10px rgba(254, 0, 242, 0.3);
-    }
-    .music-btn.playing:hover {
-        background: #fe00f2; color: #fff; box-shadow: 0 0 15px #fe00f2;
-    }
+    .music-btn:hover { background: #00f2fe; color: #000; box-shadow: 0 0 15px #00f2fe; }
+    .music-btn.playing { border-color: #fe00f2; color: #fe00f2; box-shadow: 0 0 10px rgba(254, 0, 242, 0.3); }
+    .music-btn.playing:hover { background: #fe00f2; color: #fff; box-shadow: 0 0 15px #fe00f2; }
 </style>
 </head>
 <body>
 
 <!-- 新增：背景音樂播放器與控制按鈕 -->
 <audio id="bgMusic" loop>
-    <!-- 只留這一行，並改成英文檔名，避免中文檔名被伺服器阻擋 -->
-    <source src="bgm.mp3" type="audio/mpeg">
+    <!-- 直接讀取您上傳的徵才活動音樂2.mp3 -->
+    <source src="徵才活動音樂2.mp3" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
-
-<!-- 全局環境特效 -->
-<div class="laser-container">
-    <div class="laser l1"></div>
-    <div class="laser l2"></div>
-    <div class="laser l3"></div>
-    <div class="laser l4"></div>
-</div>
-<div class="cyber-numbers num-left">010110<br>SYS.ON<br>101101</div>
-<div class="cyber-numbers num-right">88.2%<br>SYNC<br>1101</div>
-<div class="hud-corners"></div>
 
 <div id="coverScreen">
     <div class="light-cyber-grid"></div>
@@ -527,7 +521,7 @@ function initGame() {
     document.getElementById("gameBg").style.display = "block";
     document.getElementById("mainGameContainer").style.display = "block";
     
-    // 玩家點擊開始遊戲時，同步啟動背景音樂
+    // 玩家點擊開始遊戲時，嘗試同步啟動背景音樂
     if (!isMusicPlaying) {
         toggleMusic();
     }
@@ -620,11 +614,12 @@ function completeGame() {
         </div>
 
         <div class="ebook-box">
-            <a href="https://sites.google.com/view/khjovejobs/ebook0516" target="_blank" class="ebook-btn">
+            <a href="#" target="_blank" class="ebook-btn">
                 📖 點我看《職人必備電子書》
             </a>
         </div>
-
+        
+        <!-- 徵才活動海報區塊 (支援點擊放大，加入自動副檔名偵測) -->
         <div class="poster-box">
             <div class="poster-title">📢 徵才活動熱烈展開中</div>
             <img class="poster-img" src="徵才活動海報.jpg" alt="徵才活動海報 - 上工吧 百工們" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, '徵才活動海報')">
