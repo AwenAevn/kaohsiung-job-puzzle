@@ -354,8 +354,10 @@
 
 <!-- 新增：背景音樂播放器與控制按鈕 -->
 <audio id="bgMusic" loop>
-    <!-- 直接讀取您上傳的徵才活動音樂2.mp3 -->
+    <!-- 第一優先：讀取您上傳的中文檔名 -->
     <source src="徵才活動音樂2.mp3" type="audio/mpeg">
+    <!-- 第二優先：如果您把檔名改為純英文的 bgm.mp3，也能順利讀取 (強烈建議！) -->
+    <source src="bgm.mp3" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
 
@@ -614,7 +616,7 @@ function completeGame() {
         </div>
 
         <div class="ebook-box">
-            <a href="#" target="_blank" class="ebook-btn">
+            <a href="https://sites.google.com/view/khjovejobs/ebook0516" target="_blank" class="ebook-btn">
                 📖 點我看《職人必備電子書》
             </a>
         </div>
