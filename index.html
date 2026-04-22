@@ -349,10 +349,8 @@
 
 <!-- 新增：背景音樂播放器與控制按鈕 -->
 <audio id="bgMusic" loop>
-    <!-- 第一優先：讀取您上傳的專屬音樂檔案 -->
-    <source src="徵才活動音樂2.mp3" type="audio/mpeg">
-    <!-- 第二優先：備用的超級穩定測試音樂 (用來證明音樂系統沒有壞掉) -->
-    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" type="audio/mpeg">
+    <!-- 只留這一行，並改成英文檔名，避免中文檔名被伺服器阻擋 -->
+    <source src="bgm.mp3" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
 
