@@ -415,6 +415,32 @@
     <div id="resultDetailArea"></div>
 </div>
 
+<!-- 分享與互動相關視窗 (修復遺失的部分) -->
+<div id="modalLayer" onclick="toggleModal(false)">
+    <div id="shareWindow" onclick="event.stopPropagation()">
+        <div style="display:flex; align-items:center; margin-bottom:20px; font-weight:bold;">
+            <span onclick="toggleModal(false)" style="font-size:30px; cursor:pointer; margin-right:15px;">✕</span>
+            <span style="font-size: 22px;">分享給戰友</span>
+        </div>
+        <div class="share-card-preview">
+            <div id="shareTitleLabel" style="font-weight:900; color:#111; font-size:18px; margin-bottom:8px;"></div>
+            <div style="font-size:14px; color:#444; line-height:1.5;">看到合適的企業就主動靠近吧！百工百業一起來高雄上工拼未來！</div>
+        </div>
+        <div class="share-row">
+            <div class="share-col" onclick="handleShare('copy')"><div class="icon-box" style="background:#555;">🔗</div><div>複製連結</div></div>
+            <div class="share-col" onclick="handleShare('fb')"><div class="icon-box" style="background:#1877f2;">f</div><div>Facebook</div></div>
+            <div class="share-col" onclick="handleShare('line')"><div class="icon-box" style="background:#06c755;">L</div><div>LINE</div></div>
+            <div class="share-col" onclick="handleShare('threads')"><div class="icon-box" style="background:#000;">T</div><div>Threads</div></div>
+        </div>
+    </div>
+</div>
+
+<div id="toastMsg"></div>
+
+<div id="lightbox" onclick="closeLightbox()">
+    <img id="lightboxImg" src="" alt="放大海報">
+</div>
+
 <script>
 window.fallbackImage = function(img, baseName) {
     let attempt = parseInt(img.getAttribute('data-attempt') || '0');
