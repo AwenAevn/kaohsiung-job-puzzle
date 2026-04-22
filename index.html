@@ -349,8 +349,10 @@
 
 <!-- 新增：背景音樂播放器與控制按鈕 -->
 <audio id="bgMusic" loop>
-    <!-- 改用更穩定的測試連結，並移除嚴格的跨網域限制標籤 -->
-    <source src="https://assets.mixkit.co/music/preview/mixkit-cyberpunk-city-126.mp3" type="audio/mpeg">
+    <!-- 第一優先：讀取您上傳的專屬音樂檔案 -->
+    <source src="徵才活動音樂2.mp3" type="audio/mpeg">
+    <!-- 第二優先：備用的超級穩定測試音樂 (用來證明音樂系統沒有壞掉) -->
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-17.mp3" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
 
@@ -495,24 +497,26 @@ const pieceColors = [
     "linear-gradient(135deg, #8E44AD, #C39BD3)"
 ];
 
-// 新增：音樂切換控制函數
+// 新增：音樂切換控制函數 (加入防呆與更強的錯誤處理)
 function toggleMusic() {
     const music = document.getElementById("bgMusic");
     const btn = document.getElementById("musicToggle");
+    
     if (isMusicPlaying) {
         music.pause();
         isMusicPlaying = false;
         btn.innerHTML = "🔇 音樂";
         btn.classList.remove("playing");
     } else {
+        music.volume = 0.5; // 音量預設一半
         music.play().then(() => {
             isMusicPlaying = true;
             btn.innerHTML = "🔊 音樂";
             btn.classList.add("playing");
         }).catch(e => {
             console.log("播放失敗:", e);
-            // 當預覽視窗強制阻擋時，給予清楚的提示
-            showToast("⚠️ 測試環境阻擋了外部音樂，更新至 GitHub 後就能正常播放囉！");
+            // 當網頁因為防盜連或沒有使用者互動被阻擋時，跳出提示
+            showToast("⚠️ 網頁需要您手動點擊一次右上角音樂按鈕才能播放唷！");
             isMusicPlaying = false;
             btn.innerHTML = "🔇 音樂";
             btn.classList.remove("playing");
