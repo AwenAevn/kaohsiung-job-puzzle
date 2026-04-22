@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>拼起來！上工吧</title>
-<!-- 引入數碼感字體 Orbitron -->
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&family=Orbitron:wght@900&display=swap" rel="stylesheet">
 <style>
     :root {
         /* 明亮動漫色彩 */
@@ -18,7 +17,7 @@
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
-        font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
+        font-family: 'Orbitron', 'Noto Sans TC', "Microsoft JhengHei", "PingFang TC", sans-serif;
         background-color: var(--manga-blue); 
         color: #fff;
         text-align: center;
@@ -29,9 +28,9 @@
     }
 
     /* =========================================
-       新增科技感環境特效 (掃描線 & HUD邊框)
+       新增科技感環境特效 
        ========================================= */
-    /* 新增：高速數據流光 (Laser Beams) - 取代原本的掃描線 */
+    /* 高速數據流光 (Laser Beams) */
     .laser-container {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         pointer-events: none; z-index: 2; overflow: hidden;
@@ -55,7 +54,7 @@
         100% { transform: translateX(120vw); opacity: 0; }
     }
 
-    /* 新增：邊緣懸浮數位碼 (Glitch Numbers) */
+    /* 邊緣懸浮數位碼 (Glitch Numbers) */
     .cyber-numbers {
         position: fixed; top: 20%; font-family: 'Orbitron', monospace;
         color: rgba(0, 242, 254, 0.5); font-size: 12px; line-height: 1.6; letter-spacing: 2px;
@@ -97,7 +96,7 @@
         100% { opacity: 0.8; filter: drop-shadow(0 0 5px #00f2fe); }
     }
 
-    /* 新增：漂浮數據光點 */
+    /* 漂浮數據光點 */
     .floating-particles { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 2; overflow: hidden; }
     .particle {
         position: absolute; border-radius: 50%; background: #00f2fe;
@@ -185,16 +184,20 @@
 
     .title-wrapper { z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 30px; }
     .subtitle-light {
+        font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
         font-size: clamp(16px, 4.5vw, 22px); color: #00f2fe; font-weight: 900; letter-spacing: 3px;
         background: rgba(0, 20, 40, 0.5); padding: 5px 20px; border-radius: 20px;
         border: 1px solid rgba(0, 242, 254, 0.4); backdrop-filter: blur(5px);
         box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        transform: skewX(-12deg);
     }
     .title-light {
-        font-family: "Microsoft JhengHei", sans-serif; font-size: clamp(34px, 10vw, 54px); font-weight: 900;
+        font-family: 'Orbitron', 'Noto Sans TC', sans-serif; 
+        font-size: clamp(34px, 10vw, 54px); font-weight: 900;
         background: linear-gradient(135deg, #ffffff 0%, #00f2fe 50%, #fe00f2 100%);
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.5)); letter-spacing: 2px;
+        transform: skewX(-12deg);
     }
 
     .scan-btn-light {
@@ -229,6 +232,7 @@
     #mainGameContainer { display: none; padding: 10px; position: relative; z-index: 10; }
 
     h1 {
+        font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
         font-size: clamp(1.8rem, 8vw, 2.8rem); 
         margin: 15px 0 15px 0; font-weight: 900; letter-spacing: 2px;
         /* 將字體表面顏色改為科技亮藍 */
@@ -323,17 +327,6 @@
     .share-col { cursor: pointer; text-align: center; font-size: 12px; font-weight: bold; }
     .icon-box { width: 50px; height: 50px; border-radius: 12px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; border: 2px solid var(--manga-outline); }
 
-    #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 10000; font-size: 13px; }
-    
-    /* 新增：背景音樂控制按鈕 */
-    .music-btn {
-        position: fixed; top: 15px; right: 15px; z-index: 10001;
-        background: rgba(0, 20, 40, 0.7); border: 1px solid #00f2fe; color: #00f2fe;
-        padding: 6px 14px; border-radius: 20px; cursor: pointer;
-        font-family: 'Orbitron', 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: bold;
-        box-shadow: 0 0 10px rgba(0, 242, 254, 0.3); backdrop-filter: blur(5px);
-        transition: all 0.3s ease; letter-spacing: 1px;
-    }
     #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 3000; font-size: 13px; }
 
     /* 新增：背景音樂控制按鈕 */
@@ -352,11 +345,8 @@
 </head>
 <body>
 
-<!-- 新增：背景音樂播放器與控制按鈕 -->
 <audio id="bgMusic" loop>
-    <!-- 第一優先：讀取您上傳的中文檔名 -->
-    <source src="徵才活動音樂2.mp3" type="audio/mpeg">
-    <!-- 第二優先：如果您把檔名改為純英文的 bgm.mp3，也能順利讀取 (強烈建議！) -->
+    <!-- 已經為您清理乾淨，現在系統會專心且精準地讀取您的 bgm.mp3 -->
     <source src="bgm.mp3" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
@@ -365,7 +355,6 @@
     <div class="light-cyber-grid"></div>
     <div class="tech-bg-glow"></div>
     
-    <!-- 漂浮數據點 -->
     <div class="floating-particles">
         <div class="particle p1"></div><div class="particle p2"></div>
         <div class="particle p3"></div><div class="particle p4"></div>
@@ -399,14 +388,10 @@
     </button>
 </div>
 
-<!-- ==========================================
-     遊戲主畫面區 
-     ========================================== -->
 <div id="gameBg" class="kaohsiung-illust-bg">
     <div class="light-cyber-grid"></div>
     <div class="tech-bg-glow"></div>
     
-    <!-- 遊戲中同樣保留漂浮數據點 -->
     <div class="floating-particles">
         <div class="particle p1"></div><div class="particle p2"></div>
         <div class="particle p3"></div><div class="particle p4"></div>
@@ -428,31 +413,6 @@
     </div>
 
     <div id="resultDetailArea"></div>
-</div>
-
-<div id="modalLayer" onclick="toggleModal(false)">
-    <div id="shareWindow" onclick="event.stopPropagation()">
-        <div style="display:flex; align-items:center; margin-bottom:20px; font-weight:bold;">
-            <span onclick="toggleModal(false)" style="font-size:30px; cursor:pointer; margin-right:15px;">✕</span>
-            <span style="font-size: 22px;">分享給戰友</span>
-        </div>
-        <div class="share-card-preview">
-            <div id="shareTitleLabel" style="font-weight:900; color:#111; font-size:18px; margin-bottom:8px;"></div>
-            <div style="font-size:14px; color:#444; line-height:1.5;">看到合適的企業就主動靠近吧！百工百業一起來高雄上工拼未來！</div>
-        </div>
-        <div class="share-row">
-            <div class="share-col" onclick="handleShare('copy')"><div class="icon-box" style="background:#555;">🔗</div><div>複製連結</div></div>
-            <div class="share-col" onclick="handleShare('fb')"><div class="icon-box" style="background:#1877f2;">f</div><div>Facebook</div></div>
-            <div class="share-col" onclick="handleShare('line')"><div class="icon-box" style="background:#06c755;">L</div><div>LINE</div></div>
-            <div class="share-col" onclick="handleShare('threads')"><div class="icon-box" style="background:#000;">T</div><div>Threads</div></div>
-        </div>
-    </div>
-</div>
-
-<div id="toastMsg"></div>
-
-<div id="lightbox" onclick="closeLightbox()">
-    <img id="lightboxImg" src="" alt="放大海報">
 </div>
 
 <script>
@@ -523,7 +483,7 @@ function initGame() {
     document.getElementById("gameBg").style.display = "block";
     document.getElementById("mainGameContainer").style.display = "block";
     
-    // 玩家點擊開始遊戲時，嘗試同步啟動背景音樂
+    // 玩家點擊開始遊戲時，同步啟動背景音樂
     if (!isMusicPlaying) {
         toggleMusic();
     }
@@ -620,8 +580,7 @@ function completeGame() {
                 📖 點我看《職人必備電子書》
             </a>
         </div>
-        
-        <!-- 徵才活動海報區塊 (支援點擊放大，加入自動副檔名偵測) -->
+
         <div class="poster-box">
             <div class="poster-title">📢 徵才活動熱烈展開中</div>
             <img class="poster-img" src="徵才活動海報.jpg" alt="徵才活動海報 - 上工吧 百工們" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, '徵才活動海報')">
