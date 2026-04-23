@@ -533,9 +533,8 @@ function attemptPlay() {
             // 判斷給予提示
             if (currentAudioIdx === audioList.length - 1) {
                 showToast("⚠️ 找不到您上傳的音樂，已為您切換至備用測試音樂。");
-            } else {
-                showToast("🎵 成功播放您的專屬音樂！");
             }
+            // 成功播放專屬音樂時不再跳出提示，保持畫面乾淨
         }).catch(e => {
             clearTimeout(window.audioTimeout);
             console.log("播放失敗，嘗試切換:", e);
