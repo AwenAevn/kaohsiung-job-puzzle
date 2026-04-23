@@ -7,7 +7,6 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&family=Orbitron:wght@900&display=swap" rel="stylesheet">
 <style>
     :root {
-        /* 明亮動漫色彩 */
         --manga-blue: #4da6ff;
         --manga-yellow: #ffdb4d;
         --manga-red: #ff4d4d;
@@ -28,9 +27,10 @@
     }
 
     /* =========================================
-       新增科技感環境特效 
+       科技感環境特效 (雷射流光 & 數位代碼)
        ========================================= */
-    /* 高速數據流光 (Laser Beams) */
+    
+    /* 1. 橫向高速數據流 (Laser Beams) */
     .laser-container {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         pointer-events: none; z-index: 2; overflow: hidden;
@@ -54,7 +54,7 @@
         100% { transform: translateX(120vw); opacity: 0; }
     }
 
-    /* 邊緣懸浮數位碼 (Glitch Numbers) */
+    /* 2. 邊緣懸浮數位碼 (Glitch Numbers) */
     .cyber-numbers {
         position: fixed; top: 20%; font-family: 'Orbitron', monospace;
         color: rgba(0, 242, 254, 0.5); font-size: 12px; line-height: 1.6; letter-spacing: 2px;
@@ -118,7 +118,7 @@
     }
 
     /* =========================================
-       1. 遊戲封面層 (科技霓虹透視版)
+       遊戲畫面佈局
        ========================================= */
     #coverScreen {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -174,7 +174,10 @@
     @keyframes spinLightCoreRev { 100% { transform: rotate(-360deg); } }
 
     .core-question-mark {
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 80px; font-weight: 900; color: #fff;
+        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
+        font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif; /* 新增：使用標準字體，讓問號恢復原本圓潤的形狀 */
+        font-size: 80px; /* 將問號字體改回適中、有質感的大小 */
+        font-weight: 900; color: #fff;
         text-shadow: 0 0 15px #00f2fe, 0 0 30px #fe00f2; z-index: 10; animation: pulseQuestion 2s infinite;
     }
     @keyframes pulseQuestion {
@@ -220,9 +223,7 @@
     }
     .scan-btn-light:active { transform: scale(0.95) translateY(0); }
 
-    /* =========================================
-       2. 還原遊戲主畫面 (科技霓虹風)
-       ========================================= */
+    /* 遊戲主畫面樣式 */
     .kaohsiung-illust-bg {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1;
         background: radial-gradient(circle at top, #163863 0%, #0d1e3a 40%, #040914 100%); 
@@ -235,9 +236,7 @@
         font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
         font-size: clamp(1.8rem, 8vw, 2.8rem); 
         margin: 15px 0 15px 0; font-weight: 900; letter-spacing: 2px;
-        /* 將字體表面顏色改為科技亮藍 */
         color: #00f2fe;
-        /* 微調後方立體陰影，讓前面的亮藍色更凸顯 */
         text-shadow: 
             1px 1px 0 #00d4ff,
             2px 2px 0 #00a6ff,
@@ -263,9 +262,7 @@
     .opt-btn:hover:not(:disabled) { background: var(--manga-yellow); transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--manga-outline); }
     .opt-btn:active:not(:disabled) { transform: translate(1px, 1px); box-shadow: 0px 0px 0px var(--manga-outline); }
 
-    /* =========================================
-       3. 立體拼圖 
-       ========================================= */
+    /* 立體拼圖 */
     #puzzleWrapper { margin: 15px auto; width: 300px; height: 200px; position: relative; }
     #puzzleBoard { width: 100%; height: 100%; position: relative; z-index: 1; }
 
@@ -277,9 +274,7 @@
     .piece-bevel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 5px 5px 8px rgba(255,255,255,0.5), inset -5px -5px 8px rgba(0,0,0,0.2); pointer-events: none; }
     .piece-glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%, rgba(0,0,0,0.05) 100%); pointer-events: none; }
 
-    /* =========================================
-       4. 結果蓋層與分享海報
-       ========================================= */
+    /* 結果蓋層 */
     #resultOverlay {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; 
         background: rgba(255, 255, 255, 0.85); 
@@ -329,7 +324,7 @@
 
     #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 3000; font-size: 13px; }
 
-    /* 新增：背景音樂控制按鈕 */
+    /* 音樂控制按鈕 */
     .music-btn {
         position: fixed; top: 15px; right: 15px; z-index: 10001;
         background: rgba(0, 20, 40, 0.7); border: 1px solid #00f2fe; color: #00f2fe;
@@ -345,11 +340,22 @@
 </head>
 <body>
 
-<audio id="bgMusic" loop>
-    <!-- 已經為您清理乾淨，現在系統會專心且精準地讀取您的 bgm.mp3 -->
+<audio id="bgMusic" loop preload="auto">
+    <!-- 系統會優先找您的 bgm.mp3，如果找不到（GitHub還沒更新），就會自動播放備用音樂 -->
     <source src="bgm.mp3" type="audio/mpeg">
+    <source src="https://assets.mixkit.co/music/preview/mixkit-cyberpunk-city-126.mp3" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
+
+<div class="laser-container">
+    <div class="laser l1"></div>
+    <div class="laser l2"></div>
+    <div class="laser l3"></div>
+    <div class="laser l4"></div>
+</div>
+<div class="cyber-numbers num-left">010110<br>SYS.ON<br>101101</div>
+<div class="cyber-numbers num-right">88.2%<br>SYNC<br>1101</div>
+<div class="hud-corners"></div>
 
 <div id="coverScreen">
     <div class="light-cyber-grid"></div>
@@ -415,7 +421,6 @@
     <div id="resultDetailArea"></div>
 </div>
 
-<!-- 分享與互動相關視窗 (修復遺失的部分) -->
 <div id="modalLayer" onclick="toggleModal(false)">
     <div id="shareWindow" onclick="event.stopPropagation()">
         <div style="display:flex; align-items:center; margin-bottom:20px; font-weight:bold;">
@@ -450,7 +455,9 @@ window.fallbackImage = function(img, baseName) {
         img.src = baseName + exts[attempt];
     } else {
         img.style.display = 'none';
-        img.nextElementSibling.style.display = 'block';
+        if (img.nextElementSibling) {
+            img.nextElementSibling.style.display = 'block';
+        }
     }
 };
 
@@ -466,7 +473,7 @@ const questions = [
 let currentIdx = 0;
 let scoreMap = { A: 0, B: 0, C: 0, D: 0 };
 let isEnded = false;
-let isMusicPlaying = false; // 新增：音樂播放狀態追蹤
+let isMusicPlaying = false;
 
 const pieceColors = [
     "linear-gradient(135deg, #FF5E62, #FF9966)",
@@ -477,26 +484,24 @@ const pieceColors = [
     "linear-gradient(135deg, #8E44AD, #C39BD3)"
 ];
 
-// 新增：音樂切換控制函數 (加入防呆與更強的錯誤處理)
 function toggleMusic() {
     const music = document.getElementById("bgMusic");
     const btn = document.getElementById("musicToggle");
-    
     if (isMusicPlaying) {
         music.pause();
         isMusicPlaying = false;
         btn.innerHTML = "🔇 音樂";
         btn.classList.remove("playing");
     } else {
-        music.volume = 0.5; // 音量預設一半
+        music.volume = 0.5;
+        btn.innerHTML = "⏳ ..."; // 點擊後先顯示載入中，證明按鈕有反應
         music.play().then(() => {
             isMusicPlaying = true;
             btn.innerHTML = "🔊 音樂";
             btn.classList.add("playing");
         }).catch(e => {
             console.log("播放失敗:", e);
-            // 當網頁因為防盜連或沒有使用者互動被阻擋時，跳出提示
-            showToast("⚠️ 網頁需要您手動點擊一次右上角音樂按鈕才能播放唷！");
+            showToast("⚠️ 檔案讀取失敗！請確認 bgm.mp3 是否上傳正確。");
             isMusicPlaying = false;
             btn.innerHTML = "🔇 音樂";
             btn.classList.remove("playing");
@@ -508,12 +513,7 @@ function initGame() {
     document.getElementById("coverScreen").style.display = "none";
     document.getElementById("gameBg").style.display = "block";
     document.getElementById("mainGameContainer").style.display = "block";
-    
-    // 玩家點擊開始遊戲時，同步啟動背景音樂
-    if (!isMusicPlaying) {
-        toggleMusic();
-    }
-    
+    if (!isMusicPlaying) toggleMusic();
     showNextQuestion();
 }
 
@@ -558,20 +558,15 @@ function dropPiece() {
     const piece = document.createElement("div");
     piece.className = "piece";
     const col = currentIdx % 3, row = Math.floor(currentIdx / 3);
-    
     piece.style.left = (col * 100 - 20) + "px";
     piece.style.top = (row * 100 - 550) + "px";
-    
     const inner = document.createElement("div");
     inner.className = "piece-inner";
     inner.style.background = pieceColors[currentIdx];
     inner.style.clipPath = getPuzzlePath(currentIdx);
-    
     inner.innerHTML = `<div class="piece-bevel"></div><div class="piece-glare"></div>`;
-    
     piece.appendChild(inner);
     board.appendChild(piece);
-    
     setTimeout(() => { piece.style.top = (row * 100 - 20) + "px"; }, 50);
 }
 
@@ -580,7 +575,6 @@ function completeGame() {
     document.getElementById("quizArea").innerHTML = "";
     const resultKey = Object.keys(scoreMap).reduce((a, b) => scoreMap[a] > scoreMap[b] ? a : b);
     const resultNames = { A: "穩定成長型", B: "行動實戰型", C: "團隊協作型", D: "創意發想型" };
-    
     const resultTexts = {
         A: "穩健的你，最適合制度完善的企業，<br>看準職缺，<b>別猶豫——上工吧!</b>",
         B: "行動派的你，適合大展身手的企業，<br>看準職缺，<b>別猶豫——上工吧!</b>",
@@ -588,8 +582,13 @@ function completeGame() {
         D: "點子多的你，適合重視創新的企業，<br>看準職缺，<b>別猶豫——上工吧!</b>"
     };
     
-    document.getElementById("finalTypeName").innerText = resultNames[resultKey];
-    document.getElementById("shareTitleLabel").innerText = `我的職人拼圖揭曉 - ${resultNames[resultKey]}`;
+    // 修復 TypeError: 確保在修改 innerText 之前元素已存在
+    const typeLabel = document.getElementById("finalTypeName");
+    if(typeLabel) typeLabel.innerText = resultNames[resultKey];
+    
+    const shareTitle = document.getElementById("shareTitleLabel");
+    if(shareTitle) shareTitle.innerText = `我的職人拼圖揭曉 - ${resultNames[resultKey]}`;
+    
     document.getElementById("resultOverlay").classList.add("visible");
     
     document.getElementById("resultDetailArea").innerHTML = `
@@ -600,24 +599,19 @@ function completeGame() {
                 <button class="opt-btn btn-action btn-share" onclick="toggleModal(true)">🧩揪朋友一起拼</button>
             </div>
         </div>
-
         <div class="ebook-box">
-            <a href="https://sites.google.com/view/khjovejobs/ebook0516" target="_blank" class="ebook-btn">
-                📖 點我看《職人必備電子書》
-            </a>
+            <a href="https://sites.google.com/view/khjovejobs/ebook0516" target="_blank" class="ebook-btn">📖 點我看《職人必備電子書》</a>
         </div>
-
         <div class="poster-box">
             <div class="poster-title">📢 徵才活動熱烈展開中</div>
-            <img class="poster-img" src="徵才活動海報.jpg" alt="徵才活動海報 - 上工吧 百工們" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, '徵才活動海報')">
+            <img class="poster-img" src="徵才活動海報.jpg" alt="徵才活動海報" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, '徵才活動海報')">
             <div class="poster-fallback" style="display:none;">
                 [海報顯示區塊]<br>請確認圖檔名為 <b>徵才活動海報</b> (支援 jpg/png/jpeg)<br>並與此檔案放在同個資料夾
             </div>
         </div>
-
         <div class="poster-box" style="margin-bottom: 40px;">
             <div class="poster-title" style="border-left-color: #b066ff;">✨ CPAS 職涯月老 x 天賦仙子</div>
-            <img class="poster-img" src="CPAS海報.jpg" alt="CPAS海報 - 職涯月老 x 天賦仙子" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, 'CPAS海報')">
+            <img class="poster-img" src="CPAS海報.png" alt="CPAS海報" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, 'CPAS海報')">
             <div class="poster-fallback" style="display:none;">
                 [海報顯示區塊]<br>請確認圖檔名為 <b>CPAS海報</b> (支援 jpg/png/jpeg)<br>並與此檔案放在同個資料夾
             </div>
@@ -625,38 +619,36 @@ function completeGame() {
     `;
 }
 
-function toggleModal(s) { document.getElementById("modalLayer").style.display = s ? "flex" : "none"; }
-
+function toggleModal(s) { 
+    const modal = document.getElementById("modalLayer");
+    if(modal) modal.style.display = s ? "flex" : "none"; 
+}
 function openLightbox(src) {
     document.getElementById('lightboxImg').src = src;
     document.getElementById('lightbox').style.display = 'flex';
 }
-function closeLightbox() {
-    document.getElementById('lightbox').style.display = 'none';
+function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+function showToast(m) {
+    const t = document.getElementById("toastMsg");
+    if(t) {
+        t.innerText = m; t.style.display = "block";
+        setTimeout(() => { t.style.display = "none"; }, 3000);
+    }
 }
-
 async function handleShare(p) {
-    const GAME_URL = ""; 
-    let url = GAME_URL || window.location.href;
-    
-    const shareText = `🧩 我拼出了我的職場座標：${document.getElementById("finalTypeName").innerText}！百工百業一起來高雄上工拼未來！`;
-    
+    const url = window.location.href;
+    const typeLabel = document.getElementById("finalTypeName");
+    const typeName = typeLabel ? typeLabel.innerText : "";
+    const shareText = `🧩 我拼出了我的職場座標：${typeName}！百工百業一起來高雄上工拼未來！`;
     switch(p) {
         case 'copy':
-            try { await navigator.clipboard.writeText(url); showToast("✅ 連結已複製！快分享給戰友！"); } catch(e) { showToast("✅ 請複製瀏覽器網址分享！"); }
+            try { await navigator.clipboard.writeText(url); showToast("✅ 連結已複製！"); } catch(e) { showToast("✅ 請複製網址分享！"); }
             break;
         case 'line': window.open(`https://line.me/R/msg/text/?${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); break;
         case 'fb': window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank'); break;
         case 'threads': window.open(`https://www.threads.net/intent/post?text=${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); break;
     }
 }
-
-function showToast(m) {
-    const t = document.getElementById("toastMsg");
-    t.innerText = m; t.style.display = "block";
-    setTimeout(() => { t.style.display = "none"; }, 3000);
-}
 </script>
-
 </body>
 </html>
