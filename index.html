@@ -341,8 +341,10 @@
 <body>
 
 <audio id="bgMusic" loop preload="auto">
-    <!-- 加入 ?v=1 強制瀏覽器不要讀取舊的錯誤紀錄，重新抓取最新的音樂檔案 -->
-    <source src="bgm.mp3?v=1" type="audio/mpeg">
+    <!-- 優先讀取您的音樂檔案 (加入時間戳記強制更新) -->
+    <source src="bgm.mp3?v=2" type="audio/mpeg">
+    <!-- 如果您的檔案真的損壞讀不到，就會播放下面這首免費的測試音樂 -->
+    <source src="https://assets.mixkit.co/music/preview/mixkit-cyberpunk-city-126.mp3" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
 
