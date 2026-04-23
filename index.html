@@ -29,8 +29,6 @@
     /* =========================================
        科技感環境特效 (雷射流光 & 數位代碼)
        ========================================= */
-    
-    /* 1. 橫向高速數據流 (Laser Beams) */
     .laser-container {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         pointer-events: none; z-index: 2; overflow: hidden;
@@ -54,7 +52,6 @@
         100% { transform: translateX(120vw); opacity: 0; }
     }
 
-    /* 2. 邊緣懸浮數位碼 (Glitch Numbers) */
     .cyber-numbers {
         position: fixed; top: 20%; font-family: 'Orbitron', monospace;
         color: rgba(0, 242, 254, 0.5); font-size: 12px; line-height: 1.6; letter-spacing: 2px;
@@ -73,7 +70,6 @@
         100% { opacity: 0.6; }
     }
 
-    /* HUD 四角瞄準邊框 */
     .hud-corners {
         position: fixed; top: 15px; left: 15px; right: 15px; bottom: 15px;
         pointer-events: none; z-index: 9998;
@@ -96,7 +92,6 @@
         100% { opacity: 0.8; filter: drop-shadow(0 0 5px #00f2fe); }
     }
 
-    /* 漂浮數據光點 */
     .floating-particles { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 2; overflow: hidden; }
     .particle {
         position: absolute; border-radius: 50%; background: #00f2fe;
@@ -223,7 +218,6 @@
     }
     .scan-btn-light:active { transform: scale(0.95) translateY(0); }
 
-    /* 遊戲主畫面樣式 */
     .kaohsiung-illust-bg {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1;
         background: radial-gradient(circle at top, #163863 0%, #0d1e3a 40%, #040914 100%); 
@@ -237,15 +231,7 @@
         font-size: clamp(1.8rem, 8vw, 2.8rem); 
         margin: 15px 0 15px 0; font-weight: 900; letter-spacing: 2px;
         color: #00f2fe;
-        text-shadow: 
-            1px 1px 0 #00d4ff,
-            2px 2px 0 #00a6ff,
-            3px 3px 0 #0078ff,
-            4px 4px 0 #0050d4,
-            5px 5px 0 #fe00f2,
-            6px 6px 0 #c200c9,
-            8px 8px 15px rgba(0, 0, 0, 0.8),
-            0 0 20px rgba(0, 242, 254, 0.8);
+        text-shadow: 1px 1px 0 #00d4ff, 2px 2px 0 #00a6ff, 3px 3px 0 #0078ff, 4px 4px 0 #0050d4, 5px 5px 0 #fe00f2, 6px 6px 0 #c200c9, 8px 8px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 242, 254, 0.8);
     }
 
     .question-card {
@@ -262,7 +248,6 @@
     .opt-btn:hover:not(:disabled) { background: var(--manga-yellow); transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--manga-outline); }
     .opt-btn:active:not(:disabled) { transform: translate(1px, 1px); box-shadow: 0px 0px 0px var(--manga-outline); }
 
-    /* 立體拼圖 */
     #puzzleWrapper { margin: 15px auto; width: 300px; height: 200px; position: relative; }
     #puzzleBoard { width: 100%; height: 100%; position: relative; z-index: 1; }
 
@@ -274,7 +259,6 @@
     .piece-bevel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 5px 5px 8px rgba(255,255,255,0.5), inset -5px -5px 8px rgba(0,0,0,0.2); pointer-events: none; }
     .piece-glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%, rgba(0,0,0,0.05) 100%); pointer-events: none; }
 
-    /* 結果蓋層 */
     #resultOverlay {
         position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; 
         background: rgba(255, 255, 255, 0.85); 
@@ -322,7 +306,7 @@
     .share-col { cursor: pointer; text-align: center; font-size: 12px; font-weight: bold; }
     .icon-box { width: 50px; height: 50px; border-radius: 12px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; border: 2px solid var(--manga-outline); }
 
-    #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 3000; font-size: 13px; }
+    #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 3000; font-size: 13px; line-height: 1.5; }
 
     /* 音樂控制按鈕 */
     .music-btn {
@@ -340,10 +324,11 @@
 </head>
 <body>
 
+<!-- 已經將備用音樂刪除，這次網頁只會專心讀取您專屬的檔案！ -->
 <audio id="bgMusic" loop preload="auto">
-    <!-- 加入雙重保險！無論您的檔案是 bgm.mp3 還是 bgm.mp3.mp3，系統都會抓出來播放 -->
-    <source src="bgm.mp3?v=4" type="audio/mpeg">
-    <source src="bgm.mp3.mp3?v=4" type="audio/mpeg">
+    <source src="bgm.mp3?v=6" type="audio/mpeg">
+    <source src="bgm.mp3.mp3?v=6" type="audio/mpeg">
+    <source src="徵才活動音樂2.mp3?v=6" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
 
@@ -487,6 +472,7 @@ const pieceColors = [
 function toggleMusic() {
     const music = document.getElementById("bgMusic");
     const btn = document.getElementById("musicToggle");
+
     if (isMusicPlaying) {
         music.pause();
         isMusicPlaying = false;
@@ -494,24 +480,16 @@ function toggleMusic() {
         btn.classList.remove("playing");
     } else {
         music.volume = 0.5;
-        btn.innerHTML = "⏳ ..."; // 點擊後先顯示載入中
+        btn.innerHTML = "⏳ 載入中..."; 
         
-        // 強制讀取一次，確保抓取最新狀態
-        if (music.readyState === 0) {
-            music.load();
-        }
-
         music.play().then(() => {
             isMusicPlaying = true;
             btn.innerHTML = "🔊 音樂";
             btn.classList.add("playing");
+            showToast("🎵 成功播放您的專屬音樂！");
         }).catch(e => {
             console.log("播放失敗:", e);
-            if (window.location.hostname.includes("usercontent.goog") || window.location.hostname === "localhost") {
-                showToast("⚠️ 預覽畫面無法抓取您的音檔，請至您的 GitHub 專屬網址測試！");
-            } else {
-                showToast("⚠️ 找不到音樂檔！已自動修復，請重新整理網頁再試一次。");
-            }
+            showToast("⚠️ 找不到您的音樂檔案！請確認 GitHub 上的檔名與位置是否正確。");
             isMusicPlaying = false;
             btn.innerHTML = "🔇 音樂";
             btn.classList.remove("playing");
@@ -523,7 +501,11 @@ function initGame() {
     document.getElementById("coverScreen").style.display = "none";
     document.getElementById("gameBg").style.display = "block";
     document.getElementById("mainGameContainer").style.display = "block";
-    if (!isMusicPlaying) toggleMusic();
+    
+    // 如果音樂還沒播，就在玩家按下「開始遊戲」時啟動智慧音樂系統
+    if (!isMusicPlaying) {
+        toggleMusic();
+    }
     showNextQuestion();
 }
 
@@ -637,13 +619,16 @@ function openLightbox(src) {
     document.getElementById('lightbox').style.display = 'flex';
 }
 function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
+
 function showToast(m) {
     const t = document.getElementById("toastMsg");
     if(t) {
-        t.innerText = m; t.style.display = "block";
-        setTimeout(() => { t.style.display = "none"; }, 3000);
+        t.innerText = m; 
+        t.style.display = "block";
+        setTimeout(() => { t.style.display = "none"; }, 4000);
     }
 }
+
 async function handleShare(p) {
     const url = window.location.href;
     const typeLabel = document.getElementById("finalTypeName");
