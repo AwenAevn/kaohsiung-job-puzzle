@@ -170,7 +170,7 @@
 
     .core-question-mark {
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif; /* 圓潤的標準問號 */
+        font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif;
         font-size: 80px; 
         font-weight: 900; color: #fff;
         text-shadow: 0 0 15px #00f2fe, 0 0 30px #fe00f2; z-index: 10; animation: pulseQuestion 2s infinite;
@@ -324,11 +324,12 @@
 </head>
 <body>
 
-<!-- 已經將備用音樂刪除，這次網頁只會專心讀取您專屬的檔案！ -->
 <audio id="bgMusic" loop preload="auto">
-    <source src="bgm.mp3?v=6" type="audio/mpeg">
-    <source src="bgm.mp3.mp3?v=6" type="audio/mpeg">
-    <source src="徵才活動音樂2.mp3?v=6" type="audio/mpeg">
+    <!-- 加入您最新上傳的 2bgm 音樂，並包含防呆的雙重副檔名 -->
+    <source src="2bgm.mp3?v=8" type="audio/mpeg">
+    <source src="2bgm.mp3.mp3?v=8" type="audio/mpeg">
+    <source src="bgm.mp3?v=8" type="audio/mpeg">
+    <source src="bgm.mp3.mp3?v=8" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
 
@@ -502,10 +503,7 @@ function initGame() {
     document.getElementById("gameBg").style.display = "block";
     document.getElementById("mainGameContainer").style.display = "block";
     
-    // 如果音樂還沒播，就在玩家按下「開始遊戲」時啟動智慧音樂系統
-    if (!isMusicPlaying) {
-        toggleMusic();
-    }
+    if (!isMusicPlaying) toggleMusic();
     showNextQuestion();
 }
 
