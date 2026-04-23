@@ -308,6 +308,13 @@
 
     #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 3000; font-size: 13px; line-height: 1.5; }
 
+    /* 專屬的分享面版內的成功提示框 */
+    #shareCopyAlert {
+        display: none; background: #06c755; color: #fff; padding: 12px; border-radius: 12px; 
+        text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 15px; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    }
+
     /* 音樂控制按鈕 */
     .music-btn {
         position: fixed; top: 15px; right: 15px; z-index: 10001;
@@ -412,6 +419,10 @@
             <div id="shareTitleLabel" style="font-weight:900; color:#111; font-size:18px; margin-bottom:8px;"></div>
             <div style="font-size:14px; color:#444; line-height:1.5;">看到合適的企業就主動靠近吧！百工百業一起來高雄上工拼未來！</div>
         </div>
+        
+        <!-- 明顯的提示框：直接顯示在分享面版裡面 -->
+        <div id="shareCopyAlert"></div>
+
         <div class="share-row">
             <div class="share-col" onclick="handleShare('copy')"><div class="icon-box" style="background:#555;">🔗</div><div>複製連結</div></div>
             <div class="share-col" onclick="handleShare('fb')"><div class="icon-box" style="background:#1877f2;">f</div><div>Facebook</div></div>
@@ -516,7 +527,8 @@ function attemptPlay() {
                 attemptPlay(); // 遞迴嘗試下一首
             } else {
                 resetMusicButton();
-                showToast("⚠️ 手機連線嚴重超時，請檢查網路或是否開啟省電模式。");
+                // 為了畫面乾淨，移除多餘的報錯
+                // showToast("⚠️ 手機連線嚴重超時...");
             }
         }
     }, 4000);
@@ -529,11 +541,6 @@ function attemptPlay() {
             isMusicPlaying = true;
             btn.innerHTML = "🔊 音樂";
             btn.classList.add("playing");
-            
-            // 判斷給予提示
-            if (currentAudioIdx === audioList.length - 1) {
-                showToast("⚠️ 找不到您上傳的音樂，已為您切換至備用測試音樂。");
-            }
             // 成功播放專屬音樂時不再跳出提示，保持畫面乾淨
         }).catch(e => {
             clearTimeout(window.audioTimeout);
@@ -545,7 +552,6 @@ function attemptPlay() {
                 attemptPlay();
             } else {
                 resetMusicButton();
-                showToast("⚠️ 無法播放音樂，請確認手機靜音鍵已關閉。");
             }
         });
     }
@@ -672,6 +678,12 @@ function completeGame() {
 function toggleModal(s) { 
     const modal = document.getElementById("modalLayer");
     if(modal) modal.style.display = s ? "flex" : "none"; 
+    
+    // 關閉面版時，把提示框藏起來，保持下次打開時乾淨
+    if(!s) {
+        const alertBox = document.getElementById("shareCopyAlert");
+        if(alertBox) alertBox.style.display = "none";
+    }
 }
 function openLightbox(src) {
     document.getElementById('lightboxImg').src = src;
@@ -679,12 +691,16 @@ function openLightbox(src) {
 }
 function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
 
-function showToast(m) {
-    const t = document.getElementById("toastMsg");
-    if(t) {
-        t.innerText = m; 
-        t.style.display = "block";
-        setTimeout(() => { t.style.display = "none"; }, 4000);
+// 專門用於分享面版的提示訊息
+function showShareAlert(m) {
+    const alertBox = document.getElementById("shareCopyAlert");
+    if(alertBox) {
+        alertBox.innerText = m; 
+        alertBox.style.display = "block";
+        // 簡單的彈跳動畫
+        alertBox.style.animation = "none";
+        setTimeout(() => alertBox.style.animation = "springIn 0.4s", 10);
+        setTimeout(() => { alertBox.style.display = "none"; }, 3000);
     }
 }
 
@@ -704,9 +720,9 @@ async function handleShare(p) {
                 tempInput.setSelectionRange(0, 99999); /* 給手機的特別設定 */
                 document.execCommand("copy");
                 document.body.removeChild(tempInput);
-                showToast("✅ 連結已複製！快分享給戰友！"); 
+                showShareAlert("✅ 連結已複製！快分享給戰友！"); // 改用面板專屬提示
             } catch(e) { 
-                showToast("⚠️ 請手動複製瀏覽器網址分享！"); 
+                showShareAlert("⚠️ 請手動複製瀏覽器網址分享！"); // 改用面板專屬提示
             }
             break;
         case 'line': window.open(`https://line.me/R/msg/text/?${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); break;
