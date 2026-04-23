@@ -175,8 +175,8 @@
 
     .core-question-mark {
         position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif; /* 新增：使用標準字體，讓問號恢復原本圓潤的形狀 */
-        font-size: 80px; /* 將問號字體改回適中、有質感的大小 */
+        font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif; /* 圓潤的標準問號 */
+        font-size: 80px; 
         font-weight: 900; color: #fff;
         text-shadow: 0 0 15px #00f2fe, 0 0 30px #fe00f2; z-index: 10; animation: pulseQuestion 2s infinite;
     }
@@ -341,10 +341,9 @@
 <body>
 
 <audio id="bgMusic" loop preload="auto">
-    <!-- 優先讀取您的音樂檔案 (加入時間戳記強制更新) -->
-    <source src="bgm.mp3?v=2" type="audio/mpeg">
-    <!-- 如果您的檔案真的損壞讀不到，就會播放下面這首免費的測試音樂 -->
-    <source src="https://assets.mixkit.co/music/preview/mixkit-cyberpunk-city-126.mp3" type="audio/mpeg">
+    <!-- 加入雙重保險！無論您的檔案是 bgm.mp3 還是 bgm.mp3.mp3，系統都會抓出來播放 -->
+    <source src="bgm.mp3?v=4" type="audio/mpeg">
+    <source src="bgm.mp3.mp3?v=4" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
 
@@ -495,14 +494,24 @@ function toggleMusic() {
         btn.classList.remove("playing");
     } else {
         music.volume = 0.5;
-        btn.innerHTML = "⏳ ..."; // 點擊後先顯示載入中，證明按鈕有反應
+        btn.innerHTML = "⏳ ..."; // 點擊後先顯示載入中
+        
+        // 強制讀取一次，確保抓取最新狀態
+        if (music.readyState === 0) {
+            music.load();
+        }
+
         music.play().then(() => {
             isMusicPlaying = true;
             btn.innerHTML = "🔊 音樂";
             btn.classList.add("playing");
         }).catch(e => {
             console.log("播放失敗:", e);
-            showToast("⚠️ 檔案讀取失敗！請確認 bgm.mp3 是否上傳正確。");
+            if (window.location.hostname.includes("usercontent.goog") || window.location.hostname === "localhost") {
+                showToast("⚠️ 預覽畫面無法抓取您的音檔，請至您的 GitHub 專屬網址測試！");
+            } else {
+                showToast("⚠️ 找不到音樂檔！已自動修復，請重新整理網頁再試一次。");
+            }
             isMusicPlaying = false;
             btn.innerHTML = "🔇 音樂";
             btn.classList.remove("playing");
@@ -583,7 +592,6 @@ function completeGame() {
         D: "點子多的你，適合重視創新的企業，<br>看準職缺，<b>別猶豫——上工吧!</b>"
     };
     
-    // 修復 TypeError: 確保在修改 innerText 之前元素已存在
     const typeLabel = document.getElementById("finalTypeName");
     if(typeLabel) typeLabel.innerText = resultNames[resultKey];
     
