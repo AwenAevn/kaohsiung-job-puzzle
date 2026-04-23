@@ -3,10 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- =========================================
+   新增：社群分享預覽專用標籤 (LINE, FB, Threads 抓取用)
+   ========================================= -->
 <title>拼起來！上工吧</title>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@900&family=Orbitron:wght@900&display=swap" rel="stylesheet">
+<meta name="description" content="我拼出了我的職人拼圖！百工百業一起來高雄拚上工、拚未來！">
+<meta property="og:title" content="拼起來！上工吧">
+<meta property="og:description" content="我拼出了我的職人拼圖！百工百業一起來高雄拚上工、拚未來！">
+<meta property="og:type" content="website">
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@900&display=swap" rel="stylesheet">
 <style>
     :root {
+        /* 明亮動漫色彩 */
         --manga-blue: #4da6ff;
         --manga-yellow: #ffdb4d;
         --manga-red: #ff4d4d;
@@ -16,7 +26,7 @@
     * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
     body {
-        font-family: 'Orbitron', 'Noto Sans TC', "Microsoft JhengHei", "PingFang TC", sans-serif;
+        font-family: "Microsoft JhengHei", "PingFang TC", sans-serif;
         background-color: var(--manga-blue); 
         color: #fff;
         text-align: center;
@@ -27,133 +37,34 @@
     }
 
     /* =========================================
-       科技感環境特效 (雷射流光 & 數位代碼)
-       ========================================= */
-    .laser-container {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        pointer-events: none; z-index: 2; overflow: hidden;
-    }
-    .laser {
-        position: absolute; width: 150px; height: 2px;
-        background: linear-gradient(90deg, transparent, #00f2fe, #fff);
-        opacity: 0; transform: translateX(-100%);
-        border-radius: 50%;
-        box-shadow: 0 0 10px #00f2fe;
-    }
-    .laser.l1 { top: 25%; animation: shootLaser 4s linear infinite; }
-    .laser.l2 { top: 55%; animation: shootLaser 7s linear infinite 2s; background: linear-gradient(90deg, transparent, #fe00f2, #fff); box-shadow: 0 0 10px #fe00f2; }
-    .laser.l3 { top: 80%; animation: shootLaser 5s linear infinite 1s; width: 250px; }
-    .laser.l4 { top: 15%; animation: shootLaser 6s linear infinite 3.5s; width: 100px; background: linear-gradient(90deg, transparent, #fe00f2, #fff); box-shadow: 0 0 10px #fe00f2; }
-    
-    @keyframes shootLaser {
-        0% { transform: translateX(-300px); opacity: 0; }
-        10% { opacity: 1; }
-        90% { opacity: 1; }
-        100% { transform: translateX(120vw); opacity: 0; }
-    }
-
-    .cyber-numbers {
-        position: fixed; top: 20%; font-family: 'Orbitron', monospace;
-        color: rgba(0, 242, 254, 0.5); font-size: 12px; line-height: 1.6; letter-spacing: 2px;
-        pointer-events: none; z-index: 1; text-shadow: 0 0 5px rgba(0, 242, 254, 0.6);
-        animation: glitchText 4s infinite alternate;
-    }
-    .num-left { left: 20px; text-align: left; }
-    .num-right { right: 20px; text-align: right; animation-delay: 1.5s; color: rgba(254, 0, 242, 0.5); text-shadow: 0 0 5px rgba(254, 0, 242, 0.6); }
-    
-    @keyframes glitchText {
-        0% { opacity: 0.8; }
-        20% { opacity: 0.2; }
-        40% { opacity: 0.9; }
-        60% { opacity: 0.4; }
-        80% { opacity: 1; }
-        100% { opacity: 0.6; }
-    }
-
-    .hud-corners {
-        position: fixed; top: 15px; left: 15px; right: 15px; bottom: 15px;
-        pointer-events: none; z-index: 9998;
-        background: 
-            linear-gradient(to right, #00f2fe 3px, transparent 3px) 0 0,
-            linear-gradient(to bottom, #00f2fe 3px, transparent 3px) 0 0,
-            linear-gradient(to left, #00f2fe 3px, transparent 3px) 100% 0,
-            linear-gradient(to bottom, #00f2fe 3px, transparent 3px) 100% 0,
-            linear-gradient(to right, #00f2fe 3px, transparent 3px) 0 100%,
-            linear-gradient(to top, #00f2fe 3px, transparent 3px) 0 100%,
-            linear-gradient(to left, #00f2fe 3px, transparent 3px) 100% 100%,
-            linear-gradient(to top, #00f2fe 3px, transparent 3px) 100% 100%;
-        background-repeat: no-repeat;
-        background-size: 40px 40px;
-        opacity: 0.5;
-        animation: hudPulse 4s infinite alternate;
-    }
-    @keyframes hudPulse {
-        0% { opacity: 0.3; }
-        100% { opacity: 0.8; filter: drop-shadow(0 0 5px #00f2fe); }
-    }
-
-    .floating-particles { position: absolute; width: 100%; height: 100%; top: 0; left: 0; pointer-events: none; z-index: 2; overflow: hidden; }
-    .particle {
-        position: absolute; border-radius: 50%; background: #00f2fe;
-        box-shadow: 0 0 10px #00f2fe, 0 0 20px #00f2fe;
-        animation: floatUp 10s infinite linear;
-    }
-    .p1 { width: 4px; height: 4px; left: 15%; bottom: -10px; animation-duration: 8s; }
-    .p2 { width: 3px; height: 3px; left: 35%; bottom: -10px; animation-duration: 12s; animation-delay: 2s; background: #fe00f2; box-shadow: 0 0 10px #fe00f2; }
-    .p3 { width: 5px; height: 5px; left: 65%; bottom: -10px; animation-duration: 15s; animation-delay: 1s; }
-    .p4 { width: 2px; height: 2px; left: 85%; bottom: -10px; animation-duration: 9s; animation-delay: 3s; background: #fe00f2; box-shadow: 0 0 10px #fe00f2;}
-    .p5 { width: 4px; height: 4px; left: 50%; bottom: -10px; animation-duration: 11s; animation-delay: 0.5s; }
-    .p6 { width: 3px; height: 3px; left: 20%; bottom: -10px; animation-duration: 14s; animation-delay: 4s; }
-    .p7 { width: 5px; height: 5px; left: 75%; bottom: -10px; animation-duration: 10s; animation-delay: 2.5s; background: #fe00f2; box-shadow: 0 0 10px #fe00f2;}
-    @keyframes floatUp {
-        0% { transform: translateY(0) scale(1); opacity: 0; }
-        10% { opacity: 0.8; }
-        90% { opacity: 0.8; }
-        100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
-    }
-
-    /* =========================================
-       遊戲畫面佈局
+       1. 遊戲封面層 (科技深藍質感版)
        ========================================= */
     #coverScreen {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: radial-gradient(circle at top, #163863 0%, #0d1e3a 40%, #040914 100%);
+        /* 偏藍的科技深色調 (不刺眼也不會太黑) */
+        background: radial-gradient(circle at center, #0d325e 0%, #041021 100%);
         z-index: 1000; display: flex; flex-direction: column; align-items: center; justify-content: center; overflow: hidden;
     }
 
+    /* 亮色科技透視網格 */
     .light-cyber-grid {
-        position: absolute; bottom: 0; left: -50%; width: 200%; height: 100%;
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
         background-image: 
-            linear-gradient(rgba(0, 242, 254, 0.4) 1.5px, transparent 1.5px),
-            linear-gradient(90deg, rgba(0, 242, 254, 0.4) 1.5px, transparent 1.5px);
-        background-size: 60px 60px;
-        transform: perspective(600px) rotateX(75deg);
+            linear-gradient(rgba(0, 242, 254, 0.15) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(0, 242, 254, 0.15) 1px, transparent 1px);
+        background-size: 50px 50px;
+        transform: perspective(600px) rotateX(60deg);
         transform-origin: bottom center;
-        animation: gridMoveLight 4s linear infinite;
+        animation: gridMoveLight 8s linear infinite;
         z-index: 1;
-        -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 80%);
-        opacity: 0.9;
+        opacity: 0.8;
     }
     @keyframes gridMoveLight {
-        0% { transform: perspective(600px) rotateX(75deg) translateY(0); }
-        100% { transform: perspective(600px) rotateX(75deg) translateY(60px); }
+        0% { background-position: 0 0; }
+        100% { background-position: 0 50px; }
     }
 
-    .tech-bg-glow {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-        background: 
-            radial-gradient(circle at 15% 20%, rgba(0, 242, 254, 0.3) 0%, transparent 40%),
-            radial-gradient(circle at 85% 80%, rgba(254, 0, 242, 0.25) 0%, transparent 40%),
-            radial-gradient(circle at 50% 100%, rgba(0, 102, 255, 0.3) 0%, transparent 50%);
-        z-index: 0;
-        pointer-events: none;
-        animation: neonPulse 5s ease-in-out infinite alternate;
-    }
-    @keyframes neonPulse {
-        0% { opacity: 0.5; }
-        100% { opacity: 1; filter: brightness(1.3); }
-    }
-
+    /* 科技核心 SVG */
     .light-tech-core {
         position: relative; width: 240px; height: 240px; z-index: 5; margin-bottom: 20px;
         filter: drop-shadow(0 10px 20px rgba(0, 242, 254, 0.4));
@@ -168,43 +79,50 @@
     @keyframes spinLightCore { 100% { transform: rotate(360deg); } }
     @keyframes spinLightCoreRev { 100% { transform: rotate(-360deg); } }
 
+    /* 中央發光問號 */
     .core-question-mark {
-        position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); 
-        font-family: 'Noto Sans TC', "Microsoft JhengHei", sans-serif;
-        font-size: 80px; 
-        font-weight: 900; color: #fff;
-        text-shadow: 0 0 15px #00f2fe, 0 0 30px #fe00f2; z-index: 10; animation: pulseQuestion 2s infinite;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 80px;
+        font-weight: 900;
+        color: #fff;
+        text-shadow: 0 0 15px #00f2fe, 0 0 30px #fe00f2;
+        z-index: 10;
+        animation: pulseQuestion 2s infinite;
     }
     @keyframes pulseQuestion {
         0%, 100% { transform: translate(-50%, -50%) scale(1); text-shadow: 0 0 15px #00f2fe, 0 0 30px #fe00f2; }
         50% { transform: translate(-50%, -50%) scale(1.1); text-shadow: 0 0 25px #00f2fe, 0 0 50px #fe00f2; }
     }
 
+    /* 亮色系高質感漸層標題 */
     .title-wrapper { z-index: 10; display: flex; flex-direction: column; align-items: center; gap: 8px; margin-bottom: 30px; }
     .subtitle-light {
-        font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
         font-size: clamp(16px, 4.5vw, 22px); color: #00f2fe; font-weight: 900; letter-spacing: 3px;
         background: rgba(0, 20, 40, 0.5); padding: 5px 20px; border-radius: 20px;
         border: 1px solid rgba(0, 242, 254, 0.4); backdrop-filter: blur(5px);
         box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        transform: skewX(-12deg);
     }
     .title-light {
-        font-family: 'Orbitron', 'Noto Sans TC', sans-serif; 
-        font-size: clamp(34px, 10vw, 54px); font-weight: 900;
+        font-family: "Microsoft JhengHei", sans-serif; font-size: clamp(34px, 10vw, 54px); font-weight: 900;
+        /* 配合藍色底的發光漸層 */
         background: linear-gradient(135deg, #ffffff 0%, #00f2fe 50%, #fe00f2 100%);
         -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         filter: drop-shadow(0 0 10px rgba(0, 242, 254, 0.5)); letter-spacing: 2px;
-        transform: skewX(-12deg);
     }
 
+    /* 超光感按鈕 (掃描光束) */
     .scan-btn-light {
         position: relative; background: rgba(0, 20, 40, 0.7); border: 2px solid #00f2fe; color: #00f2fe; 
-        font-size: clamp(24px, 6vw, 30px); font-weight: 900; padding: 16px 50px;
+        font-size: clamp(24px, 6vw, 30px);
+        font-weight: 900; padding: 16px 50px;
         border-radius: 50px; cursor: pointer; z-index: 20;
         overflow: hidden; box-shadow: 0 0 20px rgba(0, 242, 254, 0.4), inset 0 0 10px rgba(0, 242, 254, 0.2); transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         letter-spacing: 3px; backdrop-filter: blur(5px);
     }
+    /* 掃描光束 */
     .scan-btn-light::before {
         content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
         background: linear-gradient(90deg, transparent, rgba(0, 242, 254, 0.8), transparent);
@@ -212,28 +130,43 @@
     }
     @keyframes scanLightBeam { 0% { left: -100%; } 20% { left: 200%; } 100% { left: 200%; } }
     
+    /* 滑過時觸發紫藍漸層與強烈霓虹光暈 */
     .scan-btn-light:hover {
         background: linear-gradient(135deg, #00f2fe, #fe00f2); color: #fff; border-color: transparent;
         box-shadow: 0 12px 30px rgba(254, 0, 242, 0.6); transform: translateY(-4px);
     }
     .scan-btn-light:active { transform: scale(0.95) translateY(0); }
 
+    /* =========================================
+       2. 還原遊戲主畫面 (明亮動漫風)
+       ========================================= */
     .kaohsiung-illust-bg {
         position: fixed; top: 0; left: 0; width: 100%; height: 100vh; z-index: -1;
-        background: radial-gradient(circle at top, #163863 0%, #0d1e3a 40%, #040914 100%); 
+        background: radial-gradient(circle at 50% 50%, #85ccff 0%, #4da6ff 100%); 
         overflow: hidden; display: none; 
     }
 
+    .manga-burst {
+        position: absolute; top: 50%; left: 50%; width: 300vmax; height: 300vmax;
+        background: repeating-conic-gradient(from 0deg, rgba(255,255,255,0.2) 0deg 8deg, transparent 8deg 16deg); 
+        transform: translate(-50%, -50%); animation: rotateBurst 120s linear infinite;
+    }
+    @keyframes rotateBurst { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+
     #mainGameContainer { display: none; padding: 10px; position: relative; z-index: 10; }
 
+    /* 主遊戲標題 - 立體黑色字體 */
     h1 {
-        font-family: 'Orbitron', 'Noto Sans TC', sans-serif;
         font-size: clamp(1.8rem, 8vw, 2.8rem); 
-        margin: 15px 0 15px 0; font-weight: 900; letter-spacing: 2px;
-        color: #00f2fe;
-        text-shadow: 1px 1px 0 #00d4ff, 2px 2px 0 #00a6ff, 3px 3px 0 #0078ff, 4px 4px 0 #0050d4, 5px 5px 0 #fe00f2, 6px 6px 0 #c200c9, 8px 8px 15px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 242, 254, 0.8);
+        margin: 15px 0 5px 0; color: #fff; font-weight: 900; letter-spacing: 1px; font-style: italic;
+        text-shadow: 
+            2px 2px 0px var(--manga-outline),
+            4px 4px 0px var(--manga-outline),
+            6px 6px 10px rgba(0,0,0,0.4);
+        -webkit-text-stroke: 1px var(--manga-outline);
     }
 
+    /* 題目卡片 - 還原白色卡片、黑邊框 */
     .question-card {
         background: #fff; border: 4px solid var(--manga-outline); padding: 15px 20px; border-radius: 20px; margin: 10px auto; max-width: 350px;
         box-shadow: 6px 6px 0px var(--manga-outline); color: var(--manga-outline);
@@ -242,12 +175,16 @@
     @keyframes springIn { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
     h3 { font-size: 1.1rem; margin: 0 0 10px 0; font-weight: 900; }
 
+    /* 選項按鈕 - 白底黑邊、hover變黃 */
     .opt-btn {
         display: block; width: 100%; margin: 8px auto; padding: 10px 15px; border: 3px solid var(--manga-outline); border-radius: 12px; background: #fff; color: var(--manga-outline); cursor: pointer; font-size: 16px; font-weight: 900; transition: 0.2s; box-shadow: 4px 4px 0px var(--manga-outline);
     }
     .opt-btn:hover:not(:disabled) { background: var(--manga-yellow); transform: translate(-2px, -2px); box-shadow: 6px 6px 0px var(--manga-outline); }
     .opt-btn:active:not(:disabled) { transform: translate(1px, 1px); box-shadow: 0px 0px 0px var(--manga-outline); }
 
+    /* =========================================
+       3. 立體拼圖 
+       ========================================= */
     #puzzleWrapper { margin: 15px auto; width: 300px; height: 200px; position: relative; }
     #puzzleBoard { width: 100%; height: 100%; position: relative; z-index: 1; }
 
@@ -259,10 +196,11 @@
     .piece-bevel { position: absolute; top: 0; left: 0; width: 100%; height: 100%; box-shadow: inset 5px 5px 8px rgba(255,255,255,0.5), inset -5px -5px 8px rgba(0,0,0,0.2); pointer-events: none; }
     .piece-glare { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%, rgba(0,0,0,0.05) 100%); pointer-events: none; }
 
+    /* =========================================
+       4. 結果蓋層與分享海報
+       ========================================= */
     #resultOverlay {
-        position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; 
-        background: rgba(255, 255, 255, 0.85); 
-        border: 4px solid var(--manga-outline); border-radius: 15px; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; z-index: 100; padding: 10px;
+        position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; background: rgba(255, 255, 255, 0.45); border: 4px solid var(--manga-outline); border-radius: 15px; opacity: 0; pointer-events: none; transition: opacity 0.8s ease; z-index: 100; padding: 10px;
     }
     #resultOverlay.visible { opacity: 1; pointer-events: auto; }
 
@@ -276,6 +214,7 @@
     .btn-action { flex: 1; padding: 12px 5px; font-size: 14px; margin: 0; }
     .btn-share { background: #4facfe; color: #fff; }
 
+    /* 徵才活動海報與電子書樣式 */
     .poster-box { background: #fff; border: 4px solid var(--manga-outline); padding: 15px; border-radius: 20px; box-shadow: 8px 8px 0px var(--manga-outline); max-width: 380px; margin: 20px auto 10px auto; }
     .poster-title { font-weight: 900; font-size: 18px; color: var(--manga-outline); margin-bottom: 10px; text-align: left; border-left: 5px solid #ff4d4d; padding-left: 10px; }
     .poster-img { width: 100%; height: auto; object-fit: contain; border-radius: 10px; border: 2px solid var(--manga-outline); display: block; transition: all 0.3s ease; }
@@ -287,9 +226,10 @@
     .ebook-btn:hover { background: #ffe680; transform: translate(-2px, -2px); box-shadow: 8px 8px 0px var(--manga-outline); }
     .ebook-btn:active { transform: translate(2px, 2px); box-shadow: 2px 2px 0px var(--manga-outline); }
 
+    /* 海報放大燈箱 */
     #lightbox {
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: rgba(0,0,0,0.85); display: none; z-index: 10000;
+        background: rgba(0,0,0,0.85); display: none; z-index: 4000;
         align-items: center; justify-content: center; padding: 20px;
         cursor: zoom-out;
     }
@@ -298,7 +238,7 @@
         border: 4px solid #fff; box-shadow: 0 0 20px rgba(0,0,0,0.5);
     }
 
-    #modalLayer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; z-index: 10000; align-items: flex-end; }
+    #modalLayer { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); display: none; z-index: 2000; align-items: flex-end; }
     #shareWindow { width: 100%; max-width: 500px; background: #fff; color: #333; border-radius: 25px 25px 0 0; padding: 20px; margin: 0 auto; animation: slideUp 0.4s cubic-bezier(0.25, 1, 0.5, 1); }
     @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
     .share-card-preview { background: #f1f4f9; padding: 15px; border-radius: 15px; margin-bottom: 20px; border: 2px solid var(--manga-outline); text-align: left; }
@@ -306,55 +246,13 @@
     .share-col { cursor: pointer; text-align: center; font-size: 12px; font-weight: bold; }
     .icon-box { width: 50px; height: 50px; border-radius: 12px; margin-bottom: 5px; display: flex; align-items: center; justify-content: center; color: #fff; font-size: 24px; border: 2px solid var(--manga-outline); }
 
-    #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 3000; font-size: 13px; line-height: 1.5; }
-
-    /* 專屬的分享面版內的成功提示框 */
-    #shareCopyAlert {
-        display: none; background: #06c755; color: #fff; padding: 12px; border-radius: 12px; 
-        text-align: center; margin-bottom: 15px; font-weight: bold; font-size: 15px; 
-        box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-    }
-
-    /* 音樂控制按鈕 */
-    .music-btn {
-        position: fixed; top: 15px; right: 15px; z-index: 10001;
-        background: rgba(0, 20, 40, 0.7); border: 1px solid #00f2fe; color: #00f2fe;
-        padding: 6px 14px; border-radius: 20px; cursor: pointer;
-        font-family: 'Orbitron', 'Noto Sans TC', sans-serif; font-size: 12px; font-weight: bold;
-        box-shadow: 0 0 10px rgba(0, 242, 254, 0.3); backdrop-filter: blur(5px);
-        transition: all 0.3s ease; letter-spacing: 1px;
-    }
-    .music-btn:hover { background: #00f2fe; color: #000; box-shadow: 0 0 15px #00f2fe; }
-    .music-btn.playing { border-color: #fe00f2; color: #fe00f2; box-shadow: 0 0 10px rgba(254, 0, 242, 0.3); }
-    .music-btn.playing:hover { background: #fe00f2; color: #fff; box-shadow: 0 0 15px #fe00f2; }
+    #toastMsg { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%); background: #1a1a1a; color: #fff; padding: 10px 20px; border-radius: 30px; display: none; z-index: 3000; font-size: 13px; }
 </style>
 </head>
 <body>
 
-<!-- 乾淨的音頻播放器，移除多個 source 標籤，防手機誤判卡死 -->
-<audio id="bgMusic" loop preload="none"></audio>
-<button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
-
-<div class="laser-container">
-    <div class="laser l1"></div>
-    <div class="laser l2"></div>
-    <div class="laser l3"></div>
-    <div class="laser l4"></div>
-</div>
-<div class="cyber-numbers num-left">010110<br>SYS.ON<br>101101</div>
-<div class="cyber-numbers num-right">88.2%<br>SYNC<br>1101</div>
-<div class="hud-corners"></div>
-
 <div id="coverScreen">
     <div class="light-cyber-grid"></div>
-    <div class="tech-bg-glow"></div>
-    
-    <div class="floating-particles">
-        <div class="particle p1"></div><div class="particle p2"></div>
-        <div class="particle p3"></div><div class="particle p4"></div>
-        <div class="particle p5"></div><div class="particle p6"></div>
-        <div class="particle p7"></div>
-    </div>
 
     <div class="light-tech-core">
         <svg class="core-svg" viewBox="0 0 200 200">
@@ -383,15 +281,7 @@
 </div>
 
 <div id="gameBg" class="kaohsiung-illust-bg">
-    <div class="light-cyber-grid"></div>
-    <div class="tech-bg-glow"></div>
-    
-    <div class="floating-particles">
-        <div class="particle p1"></div><div class="particle p2"></div>
-        <div class="particle p3"></div><div class="particle p4"></div>
-        <div class="particle p5"></div><div class="particle p6"></div>
-        <div class="particle p7"></div>
-    </div>
+    <div class="manga-burst"></div>
 </div>
 
 <div id="mainGameContainer">
@@ -417,12 +307,8 @@
         </div>
         <div class="share-card-preview">
             <div id="shareTitleLabel" style="font-weight:900; color:#111; font-size:18px; margin-bottom:8px;"></div>
-            <div style="font-size:14px; color:#444; line-height:1.5;">看到合適的企業就主動靠近吧！百工百業一起來高雄上工拼未來！</div>
+            <div style="font-size:14px; color:#444; line-height:1.5;">看到合適的企業就主動靠近吧！百工百業一起來高雄拚上工、拚未來！</div>
         </div>
-        
-        <!-- 明顯的提示框：直接顯示在分享面版裡面 -->
-        <div id="shareCopyAlert"></div>
-
         <div class="share-row">
             <div class="share-col" onclick="handleShare('copy')"><div class="icon-box" style="background:#555;">🔗</div><div>複製連結</div></div>
             <div class="share-col" onclick="handleShare('fb')"><div class="icon-box" style="background:#1877f2;">f</div><div>Facebook</div></div>
@@ -439,6 +325,7 @@
 </div>
 
 <script>
+// 圖片載入失敗時的自動重試機制 (處理 .png, .jpeg 等不同副檔名)
 window.fallbackImage = function(img, baseName) {
     let attempt = parseInt(img.getAttribute('data-attempt') || '0');
     const exts = ['.png', '.jpeg', '.webp', '.JPG', '.PNG'];
@@ -447,9 +334,7 @@ window.fallbackImage = function(img, baseName) {
         img.src = baseName + exts[attempt];
     } else {
         img.style.display = 'none';
-        if (img.nextElementSibling) {
-            img.nextElementSibling.style.display = 'block';
-        }
+        img.nextElementSibling.style.display = 'block';
     }
 };
 
@@ -465,7 +350,6 @@ const questions = [
 let currentIdx = 0;
 let scoreMap = { A: 0, B: 0, C: 0, D: 0 };
 let isEnded = false;
-let isMusicPlaying = false;
 
 const pieceColors = [
     "linear-gradient(135deg, #FF5E62, #FF9966)",
@@ -476,101 +360,10 @@ const pieceColors = [
     "linear-gradient(135deg, #8E44AD, #C39BD3)"
 ];
 
-/* =========================================
-   手機防卡死：終極智慧音樂播放引擎
-   ========================================= */
-// 系統會依序嘗試以下檔案，如果卡住或壞掉，會強制換下一首！
-const audioList = [
-    "2bgm.mp3.mp3?v=11", 
-    "2bgm.mp3?v=11",
-    "https://assets.mixkit.co/music/preview/mixkit-cyberpunk-city-126.mp3" // 最後防線：保證會響的測試音樂
-];
-let currentAudioIdx = 0;
-
-function toggleMusic() {
-    const music = document.getElementById("bgMusic");
-    const btn = document.getElementById("musicToggle");
-
-    if (isMusicPlaying) {
-        music.pause();
-        isMusicPlaying = false;
-        btn.innerHTML = "🔇 音樂";
-        btn.classList.remove("playing");
-    } else {
-        music.volume = 0.5;
-        btn.innerHTML = "⏳ 載入中...";
-
-        // 設定 src
-        if (!music.src || !music.src.includes(audioList[currentAudioIdx].split('?')[0])) {
-            music.src = audioList[currentAudioIdx];
-            music.load();
-        }
-        attemptPlay();
-    }
-}
-
-function attemptPlay() {
-    const music = document.getElementById("bgMusic");
-    const btn = document.getElementById("musicToggle");
-
-    // 每次嘗試前，清除舊的計時器
-    if (window.audioTimeout) clearTimeout(window.audioTimeout);
-
-    // 設定 4 秒超時：如果 4 秒內手機抓不到檔案 (卡在載入中)，強制無情切斷並換下一首！
-    window.audioTimeout = setTimeout(() => {
-        if (!isMusicPlaying) {
-            currentAudioIdx++;
-            if (currentAudioIdx < audioList.length) {
-                console.log("載入超時，強制切換檔案:", audioList[currentAudioIdx]);
-                music.src = audioList[currentAudioIdx];
-                music.load();
-                attemptPlay(); // 遞迴嘗試下一首
-            } else {
-                resetMusicButton();
-                // 為了畫面乾淨，移除多餘的報錯
-                // showToast("⚠️ 手機連線嚴重超時...");
-            }
-        }
-    }, 4000);
-
-    // 啟動播放
-    let playPromise = music.play();
-    if (playPromise !== undefined) {
-        playPromise.then(() => {
-            clearTimeout(window.audioTimeout);
-            isMusicPlaying = true;
-            btn.innerHTML = "🔊 音樂";
-            btn.classList.add("playing");
-            // 成功播放專屬音樂時不再跳出提示，保持畫面乾淨
-        }).catch(e => {
-            clearTimeout(window.audioTimeout);
-            console.log("播放失敗，嘗試切換:", e);
-            currentAudioIdx++;
-            if (currentAudioIdx < audioList.length) {
-                music.src = audioList[currentAudioIdx];
-                music.load();
-                attemptPlay();
-            } else {
-                resetMusicButton();
-            }
-        });
-    }
-}
-
-function resetMusicButton() {
-    const btn = document.getElementById("musicToggle");
-    isMusicPlaying = false;
-    btn.innerHTML = "🔇 音樂";
-    btn.classList.remove("playing");
-    currentAudioIdx = 0;
-}
-
 function initGame() {
     document.getElementById("coverScreen").style.display = "none";
     document.getElementById("gameBg").style.display = "block";
     document.getElementById("mainGameContainer").style.display = "block";
-    
-    if (!isMusicPlaying) toggleMusic();
     showNextQuestion();
 }
 
@@ -615,15 +408,20 @@ function dropPiece() {
     const piece = document.createElement("div");
     piece.className = "piece";
     const col = currentIdx % 3, row = Math.floor(currentIdx / 3);
+    
     piece.style.left = (col * 100 - 20) + "px";
     piece.style.top = (row * 100 - 550) + "px";
+    
     const inner = document.createElement("div");
     inner.className = "piece-inner";
     inner.style.background = pieceColors[currentIdx];
     inner.style.clipPath = getPuzzlePath(currentIdx);
+    
     inner.innerHTML = `<div class="piece-bevel"></div><div class="piece-glare"></div>`;
+    
     piece.appendChild(inner);
     board.appendChild(piece);
+    
     setTimeout(() => { piece.style.top = (row * 100 - 20) + "px"; }, 50);
 }
 
@@ -632,42 +430,41 @@ function completeGame() {
     document.getElementById("quizArea").innerHTML = "";
     const resultKey = Object.keys(scoreMap).reduce((a, b) => scoreMap[a] > scoreMap[b] ? a : b);
     const resultNames = { A: "穩定成長型", B: "行動實戰型", C: "團隊協作型", D: "創意發想型" };
-    const resultTexts = {
-        A: "穩健的你，最適合制度完善的企業，<br>看準職缺，<b>別猶豫——上工吧!</b>",
-        B: "行動派的你，適合大展身手的企業，<br>看準職缺，<b>別猶豫——上工吧!</b>",
-        C: "善溝通的你，適合氣氛融洽的團隊，<br>看準職缺，<b>別猶豫——上工吧!</b>",
-        D: "點子多的你，適合重視創新的企業，<br>看準職缺，<b>別猶豫——上工吧!</b>"
-    };
     
-    const typeLabel = document.getElementById("finalTypeName");
-    if(typeLabel) typeLabel.innerText = resultNames[resultKey];
+    document.getElementById("finalTypeName").innerText = resultNames[resultKey];
     
-    const shareTitle = document.getElementById("shareTitleLabel");
-    if(shareTitle) shareTitle.innerText = `我的職人拼圖揭曉 - ${resultNames[resultKey]}`;
-    
+    // 更新面版內的標題文字
+    document.getElementById("shareTitleLabel").innerText = `我的職人拼圖揭曉 - ${resultNames[resultKey]}`;
     document.getElementById("resultOverlay").classList.add("visible");
     
     document.getElementById("resultDetailArea").innerHTML = `
         <div class="final-box">
-            ${resultTexts[resultKey]}
+            看到合適的企業，就主動靠近；<br>覺得不錯的職缺，就勇敢開口，<br>別猶豫——<b>上工吧!</b>
             <div class="btn-group">
                 <button class="opt-btn btn-action" onclick="location.reload()">🧩我要再拼一次</button>
                 <button class="opt-btn btn-action btn-share" onclick="toggleModal(true)">🧩揪朋友一起拼</button>
             </div>
         </div>
+
         <div class="ebook-box">
-            <a href="https://sites.google.com/view/khjovejobs/ebook0516" target="_blank" class="ebook-btn">📖 點我看《職人必備電子書》</a>
+            <a href="#" target="_blank" class="ebook-btn">
+                📖 點我看《職人必備電子書》
+            </a>
         </div>
+
+        <!-- 徵才活動海報區塊 -->
         <div class="poster-box">
             <div class="poster-title">📢 徵才活動熱烈展開中</div>
-            <img class="poster-img" src="徵才活動海報.jpg" alt="徵才活動海報" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, '徵才活動海報')">
+            <img class="poster-img" src="徵才活動海報.jpg" alt="徵才活動海報 - 上工吧 百工們" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, '徵才活動海報')">
             <div class="poster-fallback" style="display:none;">
                 [海報顯示區塊]<br>請確認圖檔名為 <b>徵才活動海報</b> (支援 jpg/png/jpeg)<br>並與此檔案放在同個資料夾
             </div>
         </div>
+
+        <!-- CPAS 職涯月老 x 天賦仙子 海報區塊 -->
         <div class="poster-box" style="margin-bottom: 40px;">
             <div class="poster-title" style="border-left-color: #b066ff;">✨ CPAS 職涯月老 x 天賦仙子</div>
-            <img class="poster-img" src="CPAS海報.png" alt="CPAS海報" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, 'CPAS海報')">
+            <img class="poster-img" src="CPAS海報.jpg" alt="CPAS海報 - 職涯月老 x 天賦仙子" style="cursor: zoom-in;" onclick="openLightbox(this.src)" onerror="fallbackImage(this, 'CPAS海報')">
             <div class="poster-fallback" style="display:none;">
                 [海報顯示區塊]<br>請確認圖檔名為 <b>CPAS海報</b> (支援 jpg/png/jpeg)<br>並與此檔案放在同個資料夾
             </div>
@@ -675,61 +472,62 @@ function completeGame() {
     `;
 }
 
-function toggleModal(s) { 
-    const modal = document.getElementById("modalLayer");
-    if(modal) modal.style.display = s ? "flex" : "none"; 
-    
-    // 關閉面版時，把提示框藏起來，保持下次打開時乾淨
-    if(!s) {
-        const alertBox = document.getElementById("shareCopyAlert");
-        if(alertBox) alertBox.style.display = "none";
-    }
-}
+function toggleModal(s) { document.getElementById("modalLayer").style.display = s ? "flex" : "none"; }
+
+// 燈箱控制邏輯
 function openLightbox(src) {
     document.getElementById('lightboxImg').src = src;
     document.getElementById('lightbox').style.display = 'flex';
 }
-function closeLightbox() { document.getElementById('lightbox').style.display = 'none'; }
-
-// 專門用於分享面版的提示訊息
-function showShareAlert(m) {
-    const alertBox = document.getElementById("shareCopyAlert");
-    if(alertBox) {
-        alertBox.innerText = m; 
-        alertBox.style.display = "block";
-        // 簡單的彈跳動畫
-        alertBox.style.animation = "none";
-        setTimeout(() => alertBox.style.animation = "springIn 0.4s", 10);
-        setTimeout(() => { alertBox.style.display = "none"; }, 3000);
-    }
+function closeLightbox() {
+    document.getElementById('lightbox').style.display = 'none';
 }
 
 async function handleShare(p) {
-    const url = window.location.href;
-    const typeLabel = document.getElementById("finalTypeName");
-    const typeName = typeLabel ? typeLabel.innerText : "";
-    const shareText = `🧩 我拼出了我的職場座標：${typeName}！百工百業一起來高雄上工拼未來！`;
+    const GAME_URL = ""; 
+    let url = GAME_URL || window.location.href;
+    
+    // 獲取使用者的拼圖結果類型
+    const typeName = document.getElementById("finalTypeName").innerText || "";
+    
+    // 統整 LINE, FB, Threads, 以及「複製連結」時要出現的對話文字
+    const shareText = `🧩 我拼出了我的職人拼圖：${typeName}！百工百業一起來高雄拚上工、拚未來！`;
+    
     switch(p) {
         case 'copy':
-            try {
-                // 使用相容性最高、最傳統的複製語法，避免手機 WebView 阻擋
-                const tempInput = document.createElement("input");
-                tempInput.value = url;
+            try { 
+                // 創建一個隱藏的 textarea 來複製「完整的對話文字 + 網址」
+                const tempInput = document.createElement("textarea");
+                tempInput.value = shareText + "\n" + url;
                 document.body.appendChild(tempInput);
                 tempInput.select();
-                tempInput.setSelectionRange(0, 99999); /* 給手機的特別設定 */
+                tempInput.setSelectionRange(0, 99999);
                 document.execCommand("copy");
                 document.body.removeChild(tempInput);
-                showShareAlert("✅ 連結已複製！快分享給戰友！"); // 改用面板專屬提示
+                showToast("✅ 分享文字與連結已複製！快貼給戰友！"); 
             } catch(e) { 
-                showShareAlert("⚠️ 請手動複製瀏覽器網址分享！"); // 改用面板專屬提示
+                showToast("⚠️ 請手動複製瀏覽器網址分享！"); 
             }
             break;
-        case 'line': window.open(`https://line.me/R/msg/text/?${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); break;
-        case 'fb': window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank'); break;
-        case 'threads': window.open(`https://www.threads.net/intent/post?text=${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); break;
+        case 'line': 
+            window.open(`https://line.me/R/msg/text/?${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); 
+            break;
+        case 'fb': 
+            // FB的機制是只抓取網頁的原始設定，不支援直接塞文字，但我們依然送出標準的分享請求
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank'); 
+            break;
+        case 'threads': 
+            window.open(`https://www.threads.net/intent/post?text=${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); 
+            break;
     }
 }
+
+function showToast(m) {
+    const t = document.getElementById("toastMsg");
+    t.innerText = m; t.style.display = "block";
+    setTimeout(() => { t.style.display = "none"; }, 4000);
+}
 </script>
+
 </body>
 </html>
