@@ -483,18 +483,38 @@ function toggleMusic() {
         music.volume = 0.5;
         btn.innerHTML = "⏳ 載入中..."; 
         
-        music.play().then(() => {
-            isMusicPlaying = true;
-            btn.innerHTML = "🔊 音樂";
-            btn.classList.add("playing");
-            showToast("🎵 成功播放您的專屬音樂！");
-        }).catch(e => {
-            console.log("播放失敗:", e);
-            showToast("⚠️ 找不到您的音樂檔案！請確認 GitHub 上的檔名與位置是否正確。");
-            isMusicPlaying = false;
-            btn.innerHTML = "🔇 音樂";
-            btn.classList.remove("playing");
-        });
+        // 如果音檔還沒準備好 (特別是手機端省電模式會阻擋預載)，強制載入
+        if (music.readyState === 0) {
+            music.load();
+        }
+
+        // 設定 8 秒超時保護，避免手機端 promise 卡死
+        let timeoutId = setTimeout(() => {
+            if (btn.innerHTML === "⏳ 載入中...") {
+                isMusicPlaying = false;
+                btn.innerHTML = "🔇 音樂";
+                btn.classList.remove("playing");
+                showToast("⚠️ 手機載入超時：請確認網路狀態，或檢查是否開啟了省電/靜音模式。");
+            }
+        }, 8000);
+
+        let playPromise = music.play();
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                clearTimeout(timeoutId);
+                isMusicPlaying = true;
+                btn.innerHTML = "🔊 音樂";
+                btn.classList.add("playing");
+                showToast("🎵 成功播放您的專屬音樂！");
+            }).catch(e => {
+                clearTimeout(timeoutId);
+                console.log("播放失敗:", e);
+                showToast("⚠️ 無法播放音樂！請確認手機未開啟靜音或省電模式。");
+                isMusicPlaying = false;
+                btn.innerHTML = "🔇 音樂";
+                btn.classList.remove("playing");
+            });
+        }
     }
 }
 
