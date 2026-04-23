@@ -695,7 +695,19 @@ async function handleShare(p) {
     const shareText = `🧩 我拼出了我的職場座標：${typeName}！百工百業一起來高雄上工拼未來！`;
     switch(p) {
         case 'copy':
-            try { await navigator.clipboard.writeText(url); showToast("✅ 連結已複製！"); } catch(e) { showToast("✅ 請複製網址分享！"); }
+            try {
+                // 使用相容性最高、最傳統的複製語法，避免手機 WebView 阻擋
+                const tempInput = document.createElement("input");
+                tempInput.value = url;
+                document.body.appendChild(tempInput);
+                tempInput.select();
+                tempInput.setSelectionRange(0, 99999); /* 給手機的特別設定 */
+                document.execCommand("copy");
+                document.body.removeChild(tempInput);
+                showToast("✅ 連結已複製！快分享給戰友！"); 
+            } catch(e) { 
+                showToast("⚠️ 請手動複製瀏覽器網址分享！"); 
+            }
             break;
         case 'line': window.open(`https://line.me/R/msg/text/?${encodeURIComponent(shareText + "\n" + url)}`, '_blank'); break;
         case 'fb': window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank'); break;
