@@ -341,9 +341,8 @@
 <body>
 
 <audio id="bgMusic" loop preload="auto">
-    <!-- 系統會優先找您的 bgm.mp3，如果找不到（GitHub還沒更新），就會自動播放備用音樂 -->
-    <source src="bgm.mp3" type="audio/mpeg">
-    <source src="https://assets.mixkit.co/music/preview/mixkit-cyberpunk-city-126.mp3" type="audio/mpeg">
+    <!-- 加入 ?v=1 強制瀏覽器不要讀取舊的錯誤紀錄，重新抓取最新的音樂檔案 -->
+    <source src="bgm.mp3?v=1" type="audio/mpeg">
 </audio>
 <button id="musicToggle" class="music-btn" onclick="toggleMusic()">🔇 音樂</button>
 
